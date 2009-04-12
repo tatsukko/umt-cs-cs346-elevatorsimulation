@@ -17,6 +17,7 @@ import umt.cs_346.elevatorsimulation.elevator.*;
  *
  * @author chanshew
  */
+
 public class ElevatorSimulationGUI extends javax.swing.JFrame {
 
     /** Creates new form ElevatorSimulationGUI */
@@ -157,3 +158,4 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 }
+

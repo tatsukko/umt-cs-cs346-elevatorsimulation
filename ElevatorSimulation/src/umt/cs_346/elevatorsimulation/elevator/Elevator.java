@@ -1,30 +1,50 @@
 package umt.cs_346.elevatorsimulation.elevator;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import javax.swing.*;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.awt.*;
 import java.awt.event.*;
+import umt.cs_346.elevatorsimulation.constants.Constants;
 
 @SuppressWarnings("serial")
 
 public class Elevator extends JPanel {
-	
-	private int id;
-	private Timer tTimer= null;
+    
+    private final int xStart = 50;
+    private final int yStart = 25;
+    private final int xOffset = xStart + 15;
+
+
+    //private final int yEnd = iFloors + 25;
+
+	private int iFloors = 12;
+	private int iID;
+	private Timer timer= null;
 	private Dimension dPanelDimension;
-	private int [] iXCoord = {50, 100, 115, 65};
-	private int [] iYCoord = {175, 175, 190, 190};
-	
-	//Controls
+	private int [] iXCoord = {50, 100, 115, 65, 50, 100, 115, 65};
+	private int [] iYCoord = {
+        floorLength(iFloors),
+        floorLength(iFloors),
+        floorLength(iFloors) + 15,
+        floorLength(iFloors) + 15,
+        floorLength(iFloors) + 25,
+        floorLength(iFloors) + 25,
+        floorLength(iFloors) + 40,
+        floorLength(iFloors) + 40};
+
+    //Dimensions
+   
+    //Controls
 	
 	public Elevator(){
 		
 		createPanel();
 	}
-	public Elevator (Point pInitCoordinates, int iFloors){
-		
+	public Elevator (int floors){
+		setFloors(floors);
 		createPanel();
 		
 	}//end Constructor
@@ -39,20 +59,21 @@ public class Elevator extends JPanel {
 	
 	private void drawElevator(Graphics page){
 		page.setColor(Color.red);
-		
-		page.draw3DRect(50, 50, 50, 125, true);
-		page.draw3DRect(65, 65, 50, 125, true);
+
+        //Rear
+		page.draw3DRect(50, 25, 50, floorLength(iFloors), true);
+        //Front
+		page.draw3DRect(65, 40, 50, floorLength(iFloors), true);
 		
 		//Top Left
-		page.drawLine(50, 50, 65, 65);
+		page.drawLine(50, 25, 65, 40);
 		//Top Right
-		page.drawLine(100, 50, 115, 65);
+		page.drawLine(100, 25, 115, 40);
+        
 		//Bottom Left
-		page.drawLine(50, 175, 65, 190);
+		page.drawLine(50, floorLength(iFloors) + 25, 65, floorLength(iFloors) + 40);
 		//Bottom Right
-		page.drawLine(100, 175, 115, 190);
-		
-		
+		page.drawLine(100, floorLength(iFloors) + 25, 115, floorLength(iFloors) + 40);
 		
 		page.setColor(Color.yellow);
 		
@@ -63,12 +84,11 @@ public class Elevator extends JPanel {
 	}//end drawElevator
 	
 	private void createPanel(){
-		dPanelDimension = new Dimension(150,300);
+		dPanelDimension = new Dimension(50 ,200);
 		setPreferredSize(dPanelDimension);
 		setBackground(Color.black);
-		tTimer = new Timer(25, new animatePanel());
-		tTimer.start();
-		
+		timer = new Timer(40, new animatePanel());
+		timer.start();
 	}
 	
 	public class animatePanel implements ActionListener {
@@ -84,7 +104,7 @@ public class Elevator extends JPanel {
 			*/
 				
 			
-			if(iYCoord[0] >= 50){
+			if(iYCoord[0] >= 25){
 				
 				for(int i = 0; i < 4; i++){
 					iYCoord[i] -= 1;
@@ -104,10 +124,16 @@ public class Elevator extends JPanel {
 		
 	}//end animatePanel
 	public void setID(int i){
-		id = i;
+		iID = i;
 	}
 	public int getID(){
-		return id;
+		return iID;
 	}
+    private int floorLength(int floors){
+        return floors * Constants.FLOOR_HEIGHT;
+    }
+    private void setFloors(int i){
+        iFloors = i;
+    }
 	
 }//end Elevator
