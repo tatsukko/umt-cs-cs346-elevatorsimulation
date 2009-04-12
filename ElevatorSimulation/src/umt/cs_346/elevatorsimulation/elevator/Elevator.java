@@ -8,12 +8,16 @@ import java.awt.*;
 import java.awt.event.*;
 
 @SuppressWarnings("serial")
+
 public class Elevator extends JPanel {
 	
 	private Timer tTimer= null;
 	private Dimension dPanelDimension;
 	private int [] iXCoord = {50, 100, 115, 65};
 	private int [] iYCoord = {175, 175, 190, 190};
+	
+	//Controls
+	
 	public Elevator(){
 		
 		createPanel();
@@ -33,7 +37,6 @@ public class Elevator extends JPanel {
 	}//end paintComponent
 	
 	private void drawElevator(Graphics page){
-		
 		page.setColor(Color.red);
 		
 		page.draw3DRect(50, 50, 50, 125, true);
