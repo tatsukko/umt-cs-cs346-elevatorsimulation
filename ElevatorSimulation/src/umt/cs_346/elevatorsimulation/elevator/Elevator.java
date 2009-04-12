@@ -16,79 +16,110 @@ public class Elevator extends JPanel {
     private final int xStart = 50;
     private final int yStart = 25;
     private final int xOffset = xStart + 15;
-
+    private final int floorHeight = Constants.FLOOR_HEIGHT;
 
     //private final int yEnd = iFloors + 25;
 
-	private int iFloors = 12;
+	private int iFloors;
 	private int iID;
+	private boolean isIdle;
 	private Timer timer= null;
 	private Dimension dPanelDimension;
-	private int [] iXCoord = {50, 100, 115, 65, 50, 100, 115, 65};
-	private int [] iYCoord = {
-        floorLength(iFloors),
-        floorLength(iFloors),
-        floorLength(iFloors) + 15,
-        floorLength(iFloors) + 15,
+	private int [] iXCoord = {50, 100, 115, 65};
+	private int [] iYCoordBottom = {
         floorLength(iFloors) + 25,
         floorLength(iFloors) + 25,
         floorLength(iFloors) + 40,
-        floorLength(iFloors) + 40};
+        floorLength(iFloors) + 40
+    };
 
-    //Dimensions
+    private int [] iYCoordTop = {
+        floorLength(iFloors) + 10,
+        floorLength(iFloors) + 10,
+        floorLength(iFloors) + 25,
+        floorLength(iFloors) + 25
+    };
+    private Polygon carriageTop;
+    private Polygon carriageBottom;
    
     //Controls
 	
-	public Elevator(){
-		
-		createPanel();
+	public Elevator(int id, int floors){
+		iID = id;
+        iFloors = floors;
+        
+        createPanel();
+      
+        timer.start();
 	}
+    /*
 	public Elevator (int floors){
 		setFloors(floors);
 		createPanel();
-		
-	}//end Constructor
 	
+	}//end Constructor
+	*/
 	public void paintComponent(Graphics page){
 		
 		super.paintComponent(page);
-		
-		drawElevator(page);
+        
+		drawShaft(page);
+        
+        drawFloorDelimeter(page);
+		drawCarriage(page);
 		
 	}//end paintComponent
 	
-	private void drawElevator(Graphics page){
+	private void drawShaft(Graphics page){
 		page.setColor(Color.red);
 
-        //Rear
+        //Rear Rect
 		page.draw3DRect(50, 25, 50, floorLength(iFloors), true);
-        //Front
-		page.draw3DRect(65, 40, 50, floorLength(iFloors), true);
-		
-		//Top Left
-		page.drawLine(50, 25, 65, 40);
+        //Front Rect
+		//page.draw3DRect(65, 40, 50, floorLength(iFloors), true);
+		page.drawLine(115, 40, 115, floorLength(iFloors) + 40);
+		//Top Lefte
+		//page.drawLine(50, 25, 65, 40);
 		//Top Right
 		page.drawLine(100, 25, 115, 40);
-        
 		//Bottom Left
-		page.drawLine(50, floorLength(iFloors) + 25, 65, floorLength(iFloors) + 40);
+		//page.drawLine(50, floorLength(iFloors) + 25, 65, floorLength(iFloors) + 40);
 		//Bottom Right
 		page.drawLine(100, floorLength(iFloors) + 25, 115, floorLength(iFloors) + 40);
+
+        //Floor indicator lines
+        drawFloorDelimeter(page);
 		
-		page.setColor(Color.yellow);
-		
-		page.drawPolygon(iXCoord, iYCoord, 4);
 		//page.drawPolygon(iXCoord, iYCoord, 4);
 		
 		
 	}//end drawElevator
+
+    private void drawCarriage(Graphics page){
+        page.setColor(Color.yellow);
+        page.drawPolygon(iXCoord, iYCoordBottom, 4);
+        page.drawPolygon(iXCoord, iYCoordTop, 4);
+
+    }
+    private void drawFloorDelimeter(Graphics page){
+        page.setColor(Color.RED);
+        for(int i = 0; i < iFloors; i++){
+            page.drawLine(50, (floorHeight * i)  + 40, 100, (floorHeight * i)  + 40);
+            page.drawLine(100, (floorHeight * i) + 25, 115, (floorHeight * i) + 40);
+
+        }
+    }
 	
 	private void createPanel(){
 		dPanelDimension = new Dimension(50 ,200);
 		setPreferredSize(dPanelDimension);
 		setBackground(Color.black);
-		timer = new Timer(40, new animatePanel());
-		timer.start();
+
+        
+        
+		timer = new Timer(150, new animatePanel());
+        repaint();
+		
 	}
 	
 	public class animatePanel implements ActionListener {
@@ -104,12 +135,19 @@ public class Elevator extends JPanel {
 			*/
 				
 			
-			if(iYCoord[0] >= 25){
+			if(iYCoordBottom[0] >= 40){
 				
 				for(int i = 0; i < 4; i++){
-					iYCoord[i] -= 1;
+					iYCoordBottom[i] -= 1;
 				}
 				
+			}
+            if(iYCoordTop[0] >= 25){
+
+				for(int i = 0; i < 4; i++){
+					iYCoordTop[i] -= 1;
+				}
+
 			}
 			/*
 			if(iYCoord[0] <= 175){

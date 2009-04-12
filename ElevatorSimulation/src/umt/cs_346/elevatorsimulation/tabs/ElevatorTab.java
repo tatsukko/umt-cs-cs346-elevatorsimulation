@@ -19,8 +19,7 @@ public class ElevatorTab extends JPanel{
 
     private void addElevators(int elevators){
         for(int i = 0; i < elevators; i++){
-            ElevatorPanel e = new ElevatorPanel();
-            e.setID(i);
+            Elevator e = new Elevator(i, 6);
             this.add(e, i);
         }
     }

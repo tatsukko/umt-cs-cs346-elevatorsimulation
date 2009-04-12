@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="umt/cs_346/elevatorsimulation/elevator/ElevatorControlPanel.java|umt/cs_346/elevatorsimulation/GUI/" kind="src" path="src"/>
+	<classpathentry excluding="umt/cs_346/elevatorsimulation/elevator/ElevatorControlPanel.java" kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/NetBeans 6.5.1/platform9/modules/ext/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

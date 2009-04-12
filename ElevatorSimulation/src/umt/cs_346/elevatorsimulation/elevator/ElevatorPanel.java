@@ -23,7 +23,7 @@ public class ElevatorPanel extends JPanel {
 
     private void buildPanel(){
         this.setLayout(new GridLayout(1, 2));
-        this.add(new Elevator());
+       
     }
 
     public void setID(int i){
