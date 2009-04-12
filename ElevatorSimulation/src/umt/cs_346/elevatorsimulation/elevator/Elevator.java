@@ -11,6 +11,7 @@ import java.awt.event.*;
 
 public class Elevator extends JPanel {
 	
+	private int id;
 	private Timer tTimer= null;
 	private Dimension dPanelDimension;
 	private int [] iXCoord = {50, 100, 115, 65};
@@ -102,5 +103,11 @@ public class Elevator extends JPanel {
 		}
 		
 	}//end animatePanel
+	public void setID(int i){
+		id = i;
+	}
+	public int getID(){
+		return id;
+	}
 	
 }//end Elevator

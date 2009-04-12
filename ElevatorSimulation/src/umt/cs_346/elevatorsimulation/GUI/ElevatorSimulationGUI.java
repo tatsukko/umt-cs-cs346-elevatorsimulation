@@ -10,6 +10,8 @@
  */
 
 package umt.cs_346.elevatorsimulation.GUI;
+import umt.cs_346.elevatorsimulation.tabs.*;
+import umt.cs_346.elevatorsimulation.elevator.*;
 
 /**
  *
@@ -20,6 +22,8 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
     /** Creates new form ElevatorSimulationGUI */
     public ElevatorSimulationGUI() {
         initComponents();
+        addElevatorTab();
+        this.setTitle("Elevator Simulation");
     }
 
     /** This method is called from within the constructor to
@@ -38,7 +42,6 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         fldElevators = new javax.swing.JTextField();
         fldFloors = new javax.swing.JTextField();
-        btnSetValues = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -61,13 +64,6 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(btnSetValues, "Set Values");
-        btnSetValues.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSetValuesActionPerformed(evt);
-            }
-        });
-
         jMenu1.setText("File");
         menuBar.add(jMenu1);
 
@@ -84,16 +80,14 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(btnSetValues)
-                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(jLabel1)
-                                .add(jLabel2)))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel1)
+                            .add(jLabel2))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, fldFloors)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, fldElevators, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
-                        .add(18, 18, 18)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(tabbedPane))
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1006, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -110,13 +104,11 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel2)
-                            .add(fldFloors, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSetValues))
+                            .add(fldFloors, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .add(tabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 500, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(16, 16, 16)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -126,23 +118,15 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
 }//GEN-LAST:event_fldElevatorsActionPerformed
-
-    private void btnSetValuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetValuesActionPerformed
-
-        /* TODO
-         * This method still requires checks to make sure the user did not enter
-         * a non-numeric value.
-         */
-        iElevators = Integer.parseInt(fldElevators.getText());
-        iFloors = Integer.parseInt(fldFloors.getText());
-
-}//GEN-LAST:event_btnSetValuesActionPerformed
     public int getElevators(){
         return iElevators;
 
     }
     public int getFloors(){
         return iFloors;
+    }
+    private void addElevatorTab(){
+        tabbedPane.add("Elevators", new ElevatorTab(12));
     }
 
     /**
@@ -160,7 +144,6 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
     private int iFloors;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSetValues;
     private javax.swing.JTextArea console;
     private javax.swing.JTextField fldElevators;
     private javax.swing.JTextField fldFloors;

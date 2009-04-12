@@ -9,9 +9,6 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 public class ElevatorFrame extends JInternalFrame{
 	
 	private Elevator elevator = new Elevator();
-	private Desk
-	
-	
 	public ElevatorFrame(){}
 
 }
