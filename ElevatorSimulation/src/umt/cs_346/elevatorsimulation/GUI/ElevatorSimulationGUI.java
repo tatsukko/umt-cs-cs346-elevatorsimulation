@@ -38,9 +38,7 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         fldElevators = new javax.swing.JTextField();
         fldFloors = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        btnStart = new javax.swing.JButton();
-        btnStop = new javax.swing.JButton();
+        btnSetValues = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -63,14 +61,10 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
             }
         });
 
-        btnStart.setText("Start");
-        btnStart.setPreferredSize(new java.awt.Dimension(75, 30));
-
-        btnStop.setText("Stop");
-        btnStop.setPreferredSize(new java.awt.Dimension(75, 30));
-        btnStop.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(btnSetValues, "Set Values");
+        btnSetValues.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopActionPerformed(evt);
+                btnSetValuesActionPerformed(evt);
             }
         });
 
@@ -90,22 +84,15 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(layout.createSequentialGroup()
-                                .add(15, 15, 15)
-                                .add(btnStart, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(btnStop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(27, 27, 27))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel1)
-                                    .add(jLabel2))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, fldFloors)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, fldElevators, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(btnSetValues)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(jLabel1)
+                                .add(jLabel2)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, fldFloors)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, fldElevators, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                         .add(18, 18, 18)
                         .add(tabbedPane))
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1006, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -125,11 +112,7 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
                             .add(jLabel2)
                             .add(fldFloors, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(btnStart, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnStop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(btnSetValues))
                     .add(tabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 500, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(16, 16, 16)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -141,11 +124,26 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
 
     private void fldElevatorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fldElevatorsActionPerformed
         // TODO add your handling code here:
+
 }//GEN-LAST:event_fldElevatorsActionPerformed
 
-    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_btnStopActionPerformed
+    private void btnSetValuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetValuesActionPerformed
+
+        /* TODO
+         * This method still requires checks to make sure the user did not enter
+         * a non-numeric value.
+         */
+        iElevators = Integer.parseInt(fldElevators.getText());
+        iFloors = Integer.parseInt(fldFloors.getText());
+
+}//GEN-LAST:event_btnSetValuesActionPerformed
+    public int getElevators(){
+        return iElevators;
+
+    }
+    public int getFloors(){
+        return iFloors;
+    }
 
     /**
     * @param args the command line arguments
@@ -158,9 +156,11 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
         });
     }
 
+    private int iElevators;
+    private int iFloors;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnStart;
-    private javax.swing.JButton btnStop;
+    private javax.swing.JButton btnSetValues;
     private javax.swing.JTextArea console;
     private javax.swing.JTextField fldElevators;
     private javax.swing.JTextField fldFloors;
@@ -169,7 +169,6 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
