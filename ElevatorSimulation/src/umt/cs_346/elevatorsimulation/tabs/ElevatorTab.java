@@ -8,18 +8,19 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 
 public class ElevatorTab extends JPanel{
     
-    BoxLayout layout;
-
-    public ElevatorTab(int i){
+	private ElevatorList elevatorList;
+    
+    public ElevatorTab(ElevatorList elevators){
         //layout = new BoxLayout(this, i);
-        this.setLayout(new GridLayout(2, i));
-        addElevators(i);
+        this.setLayout(new GridLayout(2, elevators.size()));
+        elevatorList = elevators;
+        addElevators(elevatorList);
         //layout.addLayoutComponent(e, this);
     }
 
-    private void addElevators(int elevators){
-        for(int i = 0; i < elevators; i++){
-            Elevator e = new Elevator(i, 6);
+    private void addElevators(ElevatorList elevators){
+        for(int i = 0; i < elevators.size(); i++){
+        	Elevator e = (Elevator)elevators.get(i);
             this.add(e, i);
         }
     }

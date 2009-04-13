@@ -10,6 +10,7 @@
  */
 
 package umt.cs_346.elevatorsimulation.GUI;
+
 import umt.cs_346.elevatorsimulation.tabs.*;
 import umt.cs_346.elevatorsimulation.elevator.*;
 
@@ -21,10 +22,11 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 public class ElevatorSimulationGUI extends javax.swing.JFrame {
 
     /** Creates new form ElevatorSimulationGUI */
-    public ElevatorSimulationGUI() {
+    public ElevatorSimulationGUI(ElevatorList elevators) {
         initComponents();
-        addElevatorTab();
+        addElevatorTab(elevators);
         this.setTitle("Elevator Simulation");
+        this.setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -119,6 +121,7 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
 }//GEN-LAST:event_fldElevatorsActionPerformed
+   
     public int getElevators(){
         return iElevators;
 
@@ -126,21 +129,16 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
     public int getFloors(){
         return iFloors;
     }
-    private void addElevatorTab(){
-        tabbedPane.add("Elevators", new ElevatorTab(12));
+    private void addElevatorTab(ElevatorList elevators){
+        tabbedPane.add("Elevators", new ElevatorTab(elevators));
+       
     }
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ElevatorSimulationGUI().setVisible(true);
-            }
-        });
+    /*
+    public void run(){
+    	new ElevatorSimulationGUI(elevators).setVisible(true);
     }
-
+	*/
     private int iElevators;
     private int iFloors;
 
@@ -156,6 +154,18 @@ public class ElevatorSimulationGUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
-
+    
+    /**
+     * @param args the command line arguments
+     */
+     /*
+     public static void main(String args[]) {
+         java.awt.EventQueue.invokeLater(new Runnable() {
+             public void run() {
+                 new ElevatorSimulationGUI().setVisible(true);
+             }
+         });
+     }
+     */
 }
 

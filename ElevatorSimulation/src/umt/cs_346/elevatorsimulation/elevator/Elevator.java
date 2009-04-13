@@ -25,40 +25,27 @@ public class Elevator extends JPanel {
 	private boolean isIdle;
 	private Timer timer= null;
 	private Dimension dPanelDimension;
-	private int [] iXCoord = {50, 100, 115, 65};
-	private int [] iYCoordBottom = {
-        floorLength(iFloors) + 25,
-        floorLength(iFloors) + 25,
-        floorLength(iFloors) + 40,
-        floorLength(iFloors) + 40
-    };
-
-    private int [] iYCoordTop = {
-        floorLength(iFloors) + 10,
-        floorLength(iFloors) + 10,
-        floorLength(iFloors) + 25,
-        floorLength(iFloors) + 25
-    };
+	
+	private int [] iXCoord;
+	private int [] iYCoordBottom;
+    private int [] iYCoordTop;
+    
     private Polygon carriageTop;
     private Polygon carriageBottom;
    
-    //Controls
+
 	
 	public Elevator(int id, int floors){
 		iID = id;
         iFloors = floors;
-        
+        iXCoord = setXCoordValues();
+        iYCoordBottom = setYBottomValues();
+        iYCoordTop = setYTopValues();
         createPanel();
       
         timer.start();
 	}
-    /*
-	public Elevator (int floors){
-		setFloors(floors);
-		createPanel();
-	
-	}//end Constructor
-	*/
+
 	public void paintComponent(Graphics page){
 		
 		super.paintComponent(page);
@@ -114,11 +101,10 @@ public class Elevator extends JPanel {
 		dPanelDimension = new Dimension(50 ,200);
 		setPreferredSize(dPanelDimension);
 		setBackground(Color.black);
-
-        
-        
 		timer = new Timer(150, new animatePanel());
-        repaint();
+	}
+	
+	public void moveToFloor(){
 		
 	}
 	
@@ -172,6 +158,28 @@ public class Elevator extends JPanel {
     }
     private void setFloors(int i){
         iFloors = i;
+    }
+    private int[] setXCoordValues(){
+    	final int [] xTemp = {50, 100, 115, 65};
+    	return xTemp;
+    }
+    private int[] setYTopValues(){
+    	final int [] yTopTemp = {
+                floorLength(iFloors) + 10,
+                floorLength(iFloors) + 10,
+                floorLength(iFloors) + 25,
+                floorLength(iFloors) + 25
+            };
+    	return yTopTemp;
+    }
+    private int[] setYBottomValues(){
+    	final int [] yBottomTemp = {
+                floorLength(iFloors) + 25,
+                floorLength(iFloors) + 25,
+                floorLength(iFloors) + 40,
+                floorLength(iFloors) + 40
+            };
+        return yBottomTemp;
     }
 	
 }//end Elevator
