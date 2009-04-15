@@ -4,23 +4,44 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
-public class Floor extends Polygon{
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JComponent;
+
+import sun.awt.Graphics2Delegate;
+import sun.awt.RepaintArea;
+
+public class ElevatorCar extends Polygon{
 	
 	private int xStart;
 	private int yStart;
-	private int floorNumber;
+	private int [] xValues;
+	private int [] yValues;
+	private Timer carTimer;
 	
-	public Floor(Graphics page, int x, int y, int floorNum){
+	public ElevatorCar(int x, int y){
+		
 		xStart = x;
 		yStart = y;
-		floorNumber = floorNum;
+		xValues = createXArray();
+		yValues = createYArray();
+		
 		this.xpoints = createXArray();
 		this.ypoints = createYArray();
 		this.npoints = this.ypoints.length;
-		page.setColor(Color.RED);
-		page.drawPolygon(this);
-		drawFloorName(page);
+
+	}
+	
+	public void draw(Graphics page){
+		for(int i = 0; i < this.npoints; i++){
+			this.ypoints[i]--;
+		}
 		
+		page.setColor(Color.yellow);
+		page.drawPolygon(this);
 	}
 	
 	private int [] createXArray(){
@@ -56,13 +77,14 @@ public class Floor extends Polygon{
 		};
 		return yCoord;
 	}
-	public int getXStart(){
-		return xStart;
+
+	
+	public void increment(){
+
+		for(int i = 0; i < yValues.length; i++){
+			yValues[i] ++;
+		}
+		
 	}
-	public int getYOffset(){
-		return yStart + 15;
-	}
-	private void drawFloorName(Graphics page){
-		page.drawString(Integer.toString(floorNumber + 1), xStart - 15, yStart - 3);
-	}
+	
 }
