@@ -35,11 +35,16 @@ public class ElevatorCar extends Polygon{
 
 	}
 	
-	public void draw(Graphics page){
-		for(int i = 0; i < this.npoints; i++){
-			this.ypoints[i]--;
+	public void draw(Graphics page, int floorCoordinate){
+		if(this.ypoints[4] > floorCoordinate){
+			for(int i = 0; i < this.npoints; i++){
+				this.ypoints[i]--;
+			}
+		}else{
+			for(int i = 0; i < this.npoints; i++){
+				this.ypoints[i]++;
+			}
 		}
-		
 		page.setColor(Color.yellow);
 		page.drawPolygon(this);
 	}
@@ -56,11 +61,17 @@ public class ElevatorCar extends Polygon{
 				xStart + 50,
 				xStart + 50,
 				xStart,
-				xStart
+				xStart,
+				xStart + 15,
+				xStart + 65,
+				xStart + 65,
+				xStart + 15,
+				xStart + 15,
+				xStart,
+				xStart + 15
 		};
 		return xCoord;
 	}
-	
 	private int [] createYArray(){
 		int [] yCoord = {
 				yStart,
@@ -73,12 +84,21 @@ public class ElevatorCar extends Polygon{
 				yStart,
 				yStart - 15,
 				yStart - 15,
-				yStart
+				yStart,
+				yStart + 15,
+				yStart + 15,
+				yStart,
+				yStart,
+				yStart + 15,
+				yStart - 15,
+				yStart,
 		};
 		return yCoord;
 	}
 
-	
+	public int getY(){
+		return this.ypoints[4];
+	}
 	public void increment(){
 
 		for(int i = 0; i < yValues.length; i++){

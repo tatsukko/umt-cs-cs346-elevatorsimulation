@@ -10,17 +10,21 @@ public class Floor extends Polygon{
 	private int yStart;
 	private int floorNumber;
 	
-	public Floor(Graphics page, int x, int y, int floorNum){
+	public Floor(int x, int y, int floorNum){
 		xStart = x;
 		yStart = y;
 		floorNumber = floorNum;
 		this.xpoints = createXArray();
 		this.ypoints = createYArray();
 		this.npoints = this.ypoints.length;
+		
+		
+	}
+	
+	public void draw(Graphics page){
 		page.setColor(Color.RED);
 		page.drawPolygon(this);
 		drawFloorName(page);
-		
 	}
 	
 	private int [] createXArray(){
@@ -59,7 +63,7 @@ public class Floor extends Polygon{
 	public int getXStart(){
 		return xStart;
 	}
-	public int getYOffset(){
+	public int floorLimit(){
 		return yStart + 15;
 	}
 	private void drawFloorName(Graphics page){

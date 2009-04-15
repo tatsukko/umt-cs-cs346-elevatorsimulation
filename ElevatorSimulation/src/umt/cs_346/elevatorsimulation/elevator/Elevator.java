@@ -16,11 +16,6 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 public class Elevator extends JPanel {
     
     private final int xStart = 50;
-    private final int yStart = 25;
-    private final int xOffset = xStart + 15;
-    private final int floorHeight = Constants.FLOOR_HEIGHT;
-   
-    //private final int yEnd = iFloors + 25;
 
 	private int iFloors;
 	private int iID;
@@ -28,18 +23,13 @@ public class Elevator extends JPanel {
 	private boolean isIdle;
 	private Timer timer= null;
 	private Dimension dPanelDimension;
-	
-	private int [] iXCoord;
-	private int [] iYCoordBottom;
-    private int [] iYCoordTop;
-    private int [] y;
     
+    private Floor[] floors;
     
-    private Polygon carriageTop;
-    private Polygon carriageBottom;
-   
-    //private TestCar car;
+    private int nextFloor;
+    
 	ElevatorCar car;
+    
     public Elevator(){}
     
 	public Elevator(int id, int floors){
@@ -47,8 +37,8 @@ public class Elevator extends JPanel {
         iFloors = floors;
         car = new ElevatorCar(50, 187);
         createPanel();
-      
-        
+        initFloors();
+        nextFloor = 0;
 	}
 	
 	private void createPanel(){
@@ -58,44 +48,83 @@ public class Elevator extends JPanel {
 		timer = new Timer(150, new animate());
 		timer.start();
 	}
-
+	 private void initFloors(){
+	    	
+	    	int iYStart = Constants.YSTART;
+	    	floors = new Floor[iFloors];
+	    	for(int i = 0; i < iFloors; i++ ){
+	    		Floor f = new Floor(50, iYStart -= 15, i);
+	    		floors[i] = f;
+	    	}
+	}
+	
+	 private int moveToFloor(){
+		 return floors[nextFloor].floorLimit();
+	 }
+	/****************************************************************
+	 * Paint and Draw methods
+	 ***************************************************************/
+	 
 	public void paintComponent(Graphics page){
 		
 		super.paintComponent(page);
 
 		drawFloors(page);
     	drawCarriage(page);
-
-	}//end paintComponent
-	
+    	if(car.getY() == moveToFloor()){
+    		stop();
+    	}
+	}
+	private void stop(){
+		timer.stop();
+	}
     private void drawCarriage(Graphics page){
     	
-    	car.draw(page);
+    	car.draw(page, moveToFloor());
    
     }
-
     private void drawFloors(Graphics page){
-    	
-    	int iYStart = Constants.YSTART;
-    	
-    	for(int i = 0; i < iFloors; i++ ){
-    		Floor f = new Floor(page, 50, iYStart -= 15, i);
+    	for(int i = 0; i < floors.length; i++){
+    		floors[i].draw(page);
     	}
     }
-
+   
+    /****************************************************************
+     * Getters and Setters
+     ***************************************************************/
+    
+    public void setNextFloor(int i){
+    	nextFloor = i;
+    }
+    
 	public void setID(int i){
 		iID = i;
 	}
+	
+	/**
+	 * Returns an integer representing the unique ID of this elevator
+	 * @category Getter/Setter
+	 * @return The unique ID of this elevator
+	 */
 	public int getID(){
 		return iID;
 	}
+	
+	/**
+	 * Sets the number of floors that this elevator shaft will display
+	 * @category Getter/Setter
+	 * @param i 
+	 */
     private void setFloors(int i){
         iFloors = i;
     }
+    
+    /****************************************************************
+     *Action Events
+     ***************************************************************/
     public class animate implements ActionListener{
 	
 		public void actionPerformed(ActionEvent e) {
-			
 			repaint();
 			
 		} 	
