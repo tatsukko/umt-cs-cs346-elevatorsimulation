@@ -1,18 +1,7 @@
 package umt.cs_346.elevatorsimulation.elevator;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Polygon;
-
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JComponent;
-
-import sun.awt.Graphics2Delegate;
-import sun.awt.RepaintArea;
 
 public class ElevatorCar extends Polygon{
 	
