@@ -10,7 +10,7 @@ import umt.cs_346.elevatorsimulation.elevator.Elevator;
 public class Controller{
 	
 	private FloorQueue queue;
-	private ElevatorList elevators = new ElevatorList();
+	private ElevatorList elevators;
 	
 	private int iElevators = 12;
 	private int iFloors = 12;
@@ -18,6 +18,8 @@ public class Controller{
 	private ElevatorSimulationGUI ESGUI;
 	
 	public Controller(){
+		
+		elevators = new ElevatorList();
 		
 		populateElevators(iElevators);
 		ESGUI = new ElevatorSimulationGUI(elevators);

@@ -2,6 +2,8 @@ package umt.cs_346.elevatorsimulation.elevator;
 
 import java.util.ArrayList;
 
-public class ElevatorList extends ArrayList {
+@SuppressWarnings("serial")
+
+public class ElevatorList extends ArrayList<Elevator> {
 
 }
