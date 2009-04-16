@@ -7,6 +7,9 @@ import umt.cs_346.elevatorsimulation.floorqueue.*;
 import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
 import umt.cs_346.elevatorsimulation.elevator.Elevator;
 
+/**
+ * 
+ */
 public class Controller{
 	
 	private FloorQueue queue;
@@ -17,6 +20,9 @@ public class Controller{
 	
 	private ElevatorSimulationGUI ESGUI;
 	
+	/**
+	 * 
+	 */
 	public Controller(){
 		
 		elevators = new ElevatorList();
@@ -26,6 +32,10 @@ public class Controller{
 		
 	}
 	
+	/**
+	 * 
+	 * @param elevatorsNum
+	 */
 	private void populateElevators(int elevatorsNum){
 
 		for(int i = 0; i < elevatorsNum; i++){

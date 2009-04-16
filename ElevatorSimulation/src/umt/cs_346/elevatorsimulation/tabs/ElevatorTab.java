@@ -6,6 +6,13 @@ import javax.swing.JPanel;
 
 import umt.cs_346.elevatorsimulation.elevator.*;
 
+/**
+ * Swing component to display elevator objects.
+ * Displayed as a tab in the GUI's tabbed pane.
+ * @author chanshew
+ *
+ */
+
 public class ElevatorTab extends JPanel{
     
 	private ElevatorList elevatorList;
@@ -17,7 +24,12 @@ public class ElevatorTab extends JPanel{
         addElevators(elevatorList);
         //layout.addLayoutComponent(e, this);
     }
-
+    
+    /**
+     * Adds elevators to the panel 
+     * 
+     * @param elevators ElevatorList containing all instances of the elevators to be displayed 
+     */
     private void addElevators(ElevatorList elevators){
         for(int i = 0; i < elevators.size(); i++){
         	Elevator e = (Elevator)elevators.get(i);

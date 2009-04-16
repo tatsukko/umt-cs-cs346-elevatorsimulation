@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 
+/**
+ * 
+ */
 public class FloorQueue extends ArrayList<Integer> {
 
 }

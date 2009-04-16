@@ -1,8 +1,14 @@
 package umt.cs_346.elevatorsimulation.constants;
 
+
+/**
+ * Class containing static values that are referenced throughout
+ * the application.
+ * @author chanshew
+ *
+ */
 public class Constants {
 	
-	//Desktop Pane Dimensions
 	public static final int PANE_WIDTH = 900;
 	public static final int PANE_HEIGHT = 600;
 

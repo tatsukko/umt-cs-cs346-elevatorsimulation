@@ -19,8 +19,6 @@ import umt.cs_346.elevatorsimulation.elevator.*;
  * @author chanshew
  */
 
-@SuppressWarnings("serial")
-
 public class ElevatorSimulationGUI extends javax.swing.JFrame {
 
     /** Creates new form ElevatorSimulationGUI */
