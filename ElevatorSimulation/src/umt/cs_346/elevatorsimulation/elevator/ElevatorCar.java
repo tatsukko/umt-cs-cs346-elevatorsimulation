@@ -3,6 +3,13 @@ package umt.cs_346.elevatorsimulation.elevator;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * 
+ * @author Chris Hanshew
+ * @created 4/12/09
+ * 
+ */
+
 public class ElevatorCar extends Polygon{
 	
 	private int xStart;
@@ -88,12 +95,6 @@ public class ElevatorCar extends Polygon{
 	public int getY(){
 		return this.ypoints[4];
 	}
-	public void increment(){
-
-		for(int i = 0; i < yValues.length; i++){
-			yValues[i] ++;
-		}
-		
-	}
+	
 	
 }

@@ -4,7 +4,8 @@ import javax.swing.JButton;
 
 public class FloorButton extends JButton{
 	
-	public FloorButton(){
+	public FloorButton(int value){
+		this.setText(Integer.toString(value));
 		
 	}
 	

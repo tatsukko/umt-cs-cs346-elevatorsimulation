@@ -12,7 +12,7 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 
 public class Elevator extends JPanel {
     
-    private final int xStart = 50;
+    private final int xStart = 40;
 
 	private int iFloors;
 	private int iID;
@@ -32,25 +32,25 @@ public class Elevator extends JPanel {
 	public Elevator(int id, int floors){
 		iID = id;
         iFloors = floors;
-        car = new ElevatorCar(50, 187);
+        car = new ElevatorCar(xStart, 183);
         createPanel();
         initFloors();
         nextFloor = 0;
 	}
 	
 	private void createPanel(){
-		dPanelDimension = new Dimension(50 ,300);
+		dPanelDimension = new Dimension(50 ,20);
 		setPreferredSize(dPanelDimension);
 		setBackground(Color.GRAY);
 		timer = new Timer(150, new animate());
-		timer.start();
+		
 	}
 	 private void initFloors(){
 	    	
 	    	int iYStart = Constants.YSTART;
 	    	floors = new Floor[iFloors];
 	    	for(int i = 0; i < iFloors; i++ ){
-	    		Floor f = new Floor(50, iYStart -= 15, i);
+	    		Floor f = new Floor(xStart, iYStart -= 15, i);
 	    		floors[i] = f;
 	    	}
 	}
@@ -72,13 +72,14 @@ public class Elevator extends JPanel {
     		stop();
     	}
 	}
-	private void stop(){
+	public void start(){
+		timer.start();
+	}
+	public void stop(){
 		timer.stop();
 	}
     private void drawCarriage(Graphics page){
-    	
     	car.draw(page, moveToFloor());
-   
     }
     private void drawFloors(Graphics page){
     	for(int i = 0; i < floors.length; i++){

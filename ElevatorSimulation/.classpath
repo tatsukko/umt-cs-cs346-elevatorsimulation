@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry excluding="umt/cs_346/elevatorsimulation/elevator/ElevatorControlPanel.java" kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Developer/Eclipse_Workspaces/workspace/ElevatorSimulation/jars/swing-layout-1.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/ch_workspace/ElevatorSimulation/jars/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
