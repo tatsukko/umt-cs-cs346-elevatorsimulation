@@ -10,8 +10,6 @@ import umt.cs_346.elevatorsimulation.constants.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.InetAddress;
-
 
 import javax.swing.Timer;
 
@@ -40,7 +38,7 @@ public class Controller{
 		elevators = new ElevatorList();
 		populateElevators();
 		ESGUI = new ElevatorSimulationUI(elevators);
-		ESGUI.consoleAppend("Initialized");
+		ESGUI.consoleAppend("Simulation Intialized.  Welcome!  Type help for console commands.");
 		start();
 	}
 	
@@ -62,6 +60,7 @@ public class Controller{
 	private void startSimulation(){
 		for(int i = 0; i < iElevators; i++){
 			elevators.get(i).start();
+			elevators.get(i).setNextFloor(1);
 		}
 	}
 
@@ -76,28 +75,27 @@ public class Controller{
 			
 			if(action.equals("start")){
 				startSimulation();
+				serveRequest(7);
 				consoleOut("Simulation start");
 			}
 			else{
-				if(action.startsWith("queue")){
+				if(action.startsWith("queue -")){
+					
 					int currentFloor = 0;
 					int destination = 0;
 					
 					for(int i = 0; i < action.length(); i++){
-						if(action.matches("-")){
-							
-							char charCheck = action.charAt(i+1);
-							int temp = 0;
-							
-							try{
-								temp = Integer.parseInt(Character.toString(charCheck));
-							}catch(NumberFormatException e){
-								e.printStackTrace();
+						
+						if(action.charAt(i) == 'c'){
+							currentFloor = checkChar(action.charAt(i + 1));
+							System.out.println(currentFloor);
+						}else{
+							if(action.charAt(i) == 'd'){
+								destination = checkChar(action.charAt(i + 1));
+								System.out.println(destination);
 							}
-							
 						}
 					}
-					
 					
 					consoleOut("Request added to queue at Floor: " + currentFloor
 								+ " to destination: " + destination);
@@ -115,6 +113,27 @@ public class Controller{
 		}
 		}
 		timer.start();
+	}
+	
+	private int checkChar(char c){
+		int temp = 0;
+		try{
+			temp = Integer.parseInt(Character.toString(c));
+			System.out.println(temp);
+		}catch(NumberFormatException e){
+			//e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	private void serveRequest(int nextFloor){
+		for(int i = 0; i < elevators.size(); i++){
+			if(elevators.get(i).isIdle()){
+				elevators.get(i).setNextFloor(nextFloor);
+				elevators.get(i).start();
+			}
+			break;
+		}
 	}
 	
 	private void consoleOut(String s){

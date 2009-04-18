@@ -17,7 +17,6 @@ public class Elevator extends JPanel {
 	private int iFloors;
 	private int iID;
 	
-	private boolean isIdle;
 	private Timer timer= null;
 	private Dimension dPanelDimension;
     
@@ -55,7 +54,7 @@ public class Elevator extends JPanel {
 	    	}
 	}
 	
-	 private int moveToFloor(){
+	 private int destinationFloor(){
 		 return floors[nextFloor].floorLimit();
 	 }
 	/****************************************************************
@@ -68,7 +67,7 @@ public class Elevator extends JPanel {
 
 		drawFloors(page);
     	drawCarriage(page);
-    	if(car.getY() == moveToFloor()){
+    	if(car.getY() == destinationFloor()){
     		stop();
     	}
 	}
@@ -79,7 +78,7 @@ public class Elevator extends JPanel {
 		timer.stop();
 	}
     private void drawCarriage(Graphics page){
-    	car.draw(page, moveToFloor());
+    	car.draw(page, destinationFloor());
     }
     private void drawFloors(Graphics page){
     	for(int i = 0; i < floors.length; i++){
@@ -115,6 +114,16 @@ public class Elevator extends JPanel {
 	 */
     private void setFloors(int i){
         iFloors = i;
+    }
+    
+    public boolean isIdle(){
+    	boolean idle;
+    	if(timer.isRunning()){
+    		idle = false;
+    	}else{
+    		idle = true;
+    	}
+    	return idle;
     }
     
     /****************************************************************

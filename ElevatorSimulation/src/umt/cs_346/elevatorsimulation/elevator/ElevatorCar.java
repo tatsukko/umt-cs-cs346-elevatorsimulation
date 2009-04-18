@@ -18,6 +18,7 @@ public class ElevatorCar extends Polygon{
 	private int [] yValues;
 	private Timer carTimer;
 	
+	
 	public ElevatorCar(int x, int y){
 		
 		xStart = x;
@@ -32,13 +33,20 @@ public class ElevatorCar extends Polygon{
 	}
 	
 	public void draw(Graphics page, int floorCoordinate){
-		if(this.ypoints[4] > floorCoordinate){
-			for(int i = 0; i < this.npoints; i++){
-				this.ypoints[i]--;
-			}
-		}else{
-			for(int i = 0; i < this.npoints; i++){
-				this.ypoints[i]++;
+		if(this.ypoints[4] == floorCoordinate){
+			
+			}else{
+				if(this.ypoints[4] > floorCoordinate){
+			
+					for(int i = 0; i < this.npoints; i++ ){
+						this.ypoints[i]--;
+					}
+				
+			}else{
+			
+				for(int i = 0; i < this.npoints; i++ ){
+					this.ypoints[i]++;
+				}
 			}
 		}
 		page.setColor(Color.yellow);
@@ -95,6 +103,5 @@ public class ElevatorCar extends Polygon{
 	public int getY(){
 		return this.ypoints[4];
 	}
-	
 	
 }

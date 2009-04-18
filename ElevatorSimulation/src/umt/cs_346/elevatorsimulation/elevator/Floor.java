@@ -98,7 +98,7 @@ public class Floor extends Polygon{
 		return xStart;
 	}
 	public int floorLimit(){
-		return yStart + 15;
+		return yStart;
 	}
 
 }

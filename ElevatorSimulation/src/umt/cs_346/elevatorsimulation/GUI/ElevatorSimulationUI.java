@@ -111,6 +111,11 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         jButton1.setMaximumSize(new java.awt.Dimension(55, 23));
         jButton1.setMinimumSize(new java.awt.Dimension(55, 23));
         jButton1.setPreferredSize(new java.awt.Dimension(55, 23));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Stop");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -269,6 +274,10 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_consoleCommand
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        action = "start";
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
     * @param args the command line arguments
