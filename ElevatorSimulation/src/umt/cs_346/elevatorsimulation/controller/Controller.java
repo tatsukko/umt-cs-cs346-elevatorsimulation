@@ -15,10 +15,6 @@ import java.net.InetAddress;
 
 import javax.swing.Timer;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.LocalAttribute;
-
-
-
 /**
  * 
  */
@@ -68,7 +64,7 @@ public class Controller{
 			elevators.get(i).start();
 		}
 	}
-	@SuppressWarnings("null")
+
 	
 	private void update(){
 		timer.stop();
@@ -83,17 +79,29 @@ public class Controller{
 				consoleOut("Simulation start");
 			}
 			else{
-				if(action.startsWith("elevator -")){
-					int elevator = 0;
-					try{
-						elevator = Integer.parseInt(action);
-					}catch(NumberFormatException e){
-						e.printStackTrace();
-					}
-					consoleOut("elevator " + elevator);
+				if(action.startsWith("queue")){
+					int currentFloor = 0;
+					int destination = 0;
 					
+					for(int i = 0; i < action.length(); i++){
+						if(action.matches("-")){
+							
+							char charCheck = action.charAt(i+1);
+							int temp = 0;
+							
+							try{
+								temp = Integer.parseInt(Character.toString(charCheck));
+							}catch(NumberFormatException e){
+								e.printStackTrace();
+							}
+							
+						}
+					}
+					
+					
+					consoleOut("Request added to queue at Floor: " + currentFloor
+								+ " to destination: " + destination);
 				}
-				
 			else{
 				if(action.startsWith("help")){
 
