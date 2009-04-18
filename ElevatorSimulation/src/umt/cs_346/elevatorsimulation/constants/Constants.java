@@ -24,6 +24,8 @@ public class Constants {
     
     public static final String DATE_FORMAT_NOW = "M-dd HH:mm:ss";
     
+    public static final String COMMAND_URL = "http://www.chrishanshew.com/elevatorsimulation/consolecommands.html";
+    
     public static String currentTime() {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);

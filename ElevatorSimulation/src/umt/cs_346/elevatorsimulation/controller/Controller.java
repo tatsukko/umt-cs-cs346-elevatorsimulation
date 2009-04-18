@@ -96,16 +96,8 @@ public class Controller{
 				
 			else{
 				if(action.startsWith("help")){
-					String commandsAddress = null;
-					InetAddress localAddress = null;
-					try{
-						localAddress = InetAddress.getLocalHost();
-						commandsAddress = "http://127.0.0.1:8000/ElevatorSimulation/web/ConsoleCommands.html";
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-					
-					openURL(commandsAddress);
+
+					openURL(Constants.COMMAND_URL);
 					consoleOut("help");
 				}
 			else{
