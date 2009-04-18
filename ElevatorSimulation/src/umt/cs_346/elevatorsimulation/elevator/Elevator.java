@@ -1,9 +1,6 @@
 package umt.cs_346.elevatorsimulation.elevator;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import javax.swing.*;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.awt.*;
 import java.awt.event.*;
