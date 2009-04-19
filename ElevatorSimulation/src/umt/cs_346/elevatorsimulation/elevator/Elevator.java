@@ -18,7 +18,7 @@ public class Elevator extends JPanel {
 	private int iID;
 	
 	private Timer timer= null;
-	private Dimension dPanelDimension;
+	private Dimension panelDimension;
     
     private Floor[] floors;
     
@@ -31,15 +31,15 @@ public class Elevator extends JPanel {
 	public Elevator(int id, int floors){
 		iID = id;
         iFloors = floors;
-        car = new ElevatorCar(xStart, 183);
+        car = new ElevatorCar(xStart, Constants.YSTART);
         createPanel();
         initFloors();
         nextFloor = 0;
 	}
 	
 	private void createPanel(){
-		dPanelDimension = new Dimension(50 ,20);
-		setPreferredSize(dPanelDimension);
+		panelDimension = new Dimension(50 , 20);
+		setPreferredSize(panelDimension);
 		setBackground(Color.GRAY);
 		timer = new Timer(150, new animate());
 		
@@ -78,7 +78,12 @@ public class Elevator extends JPanel {
 		timer.stop();
 	}
     private void drawCarriage(Graphics page){
-    	car.draw(page, destinationFloor());
+    	try{
+    		car.draw(page, destinationFloor());
+    	}catch(IndexOutOfBoundsException e){
+    		System.out.println("Elevator: " + iID);
+    		e.printStackTrace();
+    	}
     }
     private void drawFloors(Graphics page){
     	for(int i = 0; i < floors.length; i++){

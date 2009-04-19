@@ -21,8 +21,8 @@ public class Controller{
 	private FloorQueue queue;
 	private ElevatorList elevators;
 	
-	private int iElevators = 12;
-	private int iFloors = 12;
+	private int iElevators = 0;
+	private int iFloors = 0;
 	
 	private Timer timer;
 
@@ -36,7 +36,7 @@ public class Controller{
 		timer = new Timer(50, new updateControl());
 		
 		elevators = new ElevatorList();
-		populateElevators();
+		
 		ESGUI = new ElevatorSimulationUI(elevators);
 		ESGUI.consoleAppend("Simulation Intialized.  Welcome!  Type help for console commands.");
 		start();
@@ -60,7 +60,7 @@ public class Controller{
 	private void startSimulation(){
 		for(int i = 0; i < iElevators; i++){
 			elevators.get(i).start();
-			elevators.get(i).setNextFloor(1);
+			elevators.get(i).setNextFloor(i+1);
 		}
 	}
 
@@ -68,19 +68,21 @@ public class Controller{
 	private void update(){
 		timer.stop();
 		String action = ESGUI.getAction();
+		System.out.println(action);
 		
 		if(action != null){
 			action = action.toLowerCase();
 			ESGUI.resetAction();
 			
 			if(action.equals("start")){
-				startSimulation();
-				serveRequest(7);
-				consoleOut("Simulation start");
-			}
+				if(!elevators.isEmpty()){
+					startSimulation();
+					serveRequest(7);
+					consoleOut("Simulation start");
+				}
+			}//End START
 			else{
-				if(action.startsWith("queue -")){
-					
+				if(action.startsWith("request -")){
 					int currentFloor = 0;
 					int destination = 0;
 					
@@ -88,29 +90,44 @@ public class Controller{
 						
 						if(action.charAt(i) == 'c'){
 							currentFloor = checkChar(action.charAt(i + 1));
-							System.out.println(currentFloor);
 						}else{
 							if(action.charAt(i) == 'd'){
 								destination = checkChar(action.charAt(i + 1));
-								System.out.println(destination);
 							}
 						}
-					}
-					
-					consoleOut("Request added to queue at Floor: " + currentFloor
+					}//End For
+					consoleOut("Request added to queue.: " + currentFloor
 								+ " to destination: " + destination);
-				}
+				}//End REQUEST
 			else{
 				if(action.startsWith("help")){
 
 					openURL(Constants.COMMAND_URL);
 					consoleOut("help");
-				}
+				}//End HELP
 			else{
+				if(action.startsWith("set -")){
+					for(int i = 0; i < action.length(); i++){
+						if(action.charAt(i) == 'e'){
+							iElevators = checkChar(action.charAt(i + 1));
+						}
+						else{
+							if(action.charAt(i) == 'f'){
+								iFloors = checkChar(action.charAt(i + 1));
+							}
+						}
+					}//End for
+					populateElevators();
+					ESGUI.addElevatorTab(elevators);
+					consoleOut("Drawing Elevators");
+				}//End SET
+			else{
+				
 				consoleOut(ConsoleCommand.UNKOWN);
 			}
 			}
-		}
+			}	
+			}
 		}
 		timer.start();
 	}

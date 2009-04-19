@@ -10,14 +10,14 @@ import javax.swing.*;
  * 
  */
 
-public class ElevatorCar extends Polygon{
+public class ElevatorCar extends Polygon implements Runnable{
 	
 	private int xStart;
 	private int yStart;
 	private int [] xValues;
 	private int [] yValues;
 	private Timer carTimer;
-	
+	private int floorCoordinate;
 	
 	public ElevatorCar(int x, int y){
 		
@@ -32,23 +32,9 @@ public class ElevatorCar extends Polygon{
 
 	}
 	
-	public void draw(Graphics page, int floorCoordinate){
-		if(this.ypoints[4] == floorCoordinate){
-			
-			}else{
-				if(this.ypoints[4] > floorCoordinate){
-			
-					for(int i = 0; i < this.npoints; i++ ){
-						this.ypoints[i]--;
-					}
-				
-			}else{
-			
-				for(int i = 0; i < this.npoints; i++ ){
-					this.ypoints[i]++;
-				}
-			}
-		}
+	public void draw(Graphics page, int coordinate){
+		floorCoordinate = coordinate;
+		run();
 		page.setColor(Color.yellow);
 		page.drawPolygon(this);
 	}
@@ -101,7 +87,26 @@ public class ElevatorCar extends Polygon{
 	}
 
 	public int getY(){
-		return this.ypoints[4];
+		return this.ypoints[0];
 	}
-	
+
+	@Override
+	public void run() {
+		if(this.getY() == floorCoordinate){
+			
+		}else{
+			if(this.ypoints[4] > floorCoordinate -1){
+		
+				for(int i = 0; i < this.npoints; i++ ){
+					this.ypoints[i]--;
+				}
+			
+			}else{
+			
+				for(int i = 0; i < this.npoints; i++ ){
+						this.ypoints[i]++;
+				}
+			}
+		}
+	}
 }

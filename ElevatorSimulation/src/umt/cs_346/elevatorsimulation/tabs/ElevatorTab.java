@@ -1,5 +1,6 @@
 package umt.cs_346.elevatorsimulation.tabs;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -19,9 +20,9 @@ public class ElevatorTab extends JPanel{
     
     public ElevatorTab(ElevatorList elevators){
         //layout = new BoxLayout(this, i);
-        this.setLayout(new GridLayout(2, elevators.size()));
         elevatorList = elevators;
         addElevators(elevatorList);
+        this.setBackground(Color.GRAY);
         //layout.addLayoutComponent(e, this);
     }
     
@@ -31,6 +32,46 @@ public class ElevatorTab extends JPanel{
      * @param elevators ElevatorList containing all instances of the elevators to be displayed 
      */
     private void addElevators(ElevatorList elevators){
+    	System.out.println(elevators.size());
+		switch(elevators.size()){
+			case 1:
+				this.setLayout(new GridLayout(1, 1));
+				break;
+			case 2:
+				this.setLayout(new GridLayout(1, 2));
+				break;
+			case 3:
+				this.setLayout(new GridLayout(1, 3));
+				break;
+			case 4:
+				this.setLayout(new GridLayout(1, 4));
+				break;
+			case 5:
+				this.setLayout(new GridLayout(1, 5));
+				break;
+			case 6:
+				this.setLayout(new GridLayout(1, 6));
+				break;
+			case 7:
+				this.setLayout(new GridLayout(2, 6));
+				break;
+			case 8:
+				this.setLayout(new GridLayout(2, 6));
+				break;
+			case 9:
+				this.setLayout(new GridLayout(2, 6));
+				break;
+			case 10:
+				this.setLayout(new GridLayout(2, 6));
+				break;
+			case 11:
+				this.setLayout(new GridLayout(2, 6));
+				break;
+			case 12:
+				this.setLayout(new GridLayout(2, 6));
+				break;
+		}
+	
         for(int i = 0; i < elevators.size(); i++){
         	Elevator e = (Elevator)elevators.get(i);
             this.add(e, i);

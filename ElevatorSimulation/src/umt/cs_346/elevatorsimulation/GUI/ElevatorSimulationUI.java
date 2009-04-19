@@ -30,15 +30,13 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     /** Creates new form ElevatorSimulationUI */
     public ElevatorSimulationUI(ElevatorList elevators) {
         initComponents();
-        addElevatorTab(elevators);
-        addFloorButtons(elevators.size());
         this.setTitle(Constants.TITLE);
         this.setVisible(true);
     }
 
-    private void addElevatorTab(ElevatorList elevators){
+    public void addElevatorTab(ElevatorList elevators){
         tabbedPane.add("Elevators", new ElevatorTab(elevators));
-
+        repaint();
     }
     private void addFloorButtons(int buttonCount){
         tabbedPane.add("Buttons", new ButtonPanel(buttonCount));
@@ -72,7 +70,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         lblNumElevators = new javax.swing.JLabel();
         fldNumElevators = new javax.swing.JTextField();
         lblNumFloors = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        fldNumFloors = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -98,9 +96,9 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
 
         lblNumFloors.setText("Number of Floors:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        fldNumFloors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                fldNumFloorsActionPerformed(evt);
             }
         });
 
@@ -191,7 +189,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
                                             .addComponent(lblNumFloors))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                                            .addComponent(fldNumFloors, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                                             .addComponent(fldNumElevators))))
                                 .addGap(47, 47, 47))
                             .addGroup(layout.createSequentialGroup()
@@ -230,7 +228,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNumFloors)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fldNumFloors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,9 +256,9 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void fldNumFloorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fldNumFloorsActionPerformed
         // TODO add your handling code here:
-}//GEN-LAST:event_jTextField2ActionPerformed
+}//GEN-LAST:event_fldNumFloorsActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -276,7 +274,9 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_consoleCommand
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        action = "start";
+
+        action = "set " + "-e" + fldNumElevators.getText() +
+        " -f" + fldNumFloors.getText();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -295,6 +295,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     private javax.swing.JTextField console;
     private javax.swing.JTextPane consoleOut;
     private javax.swing.JTextField fldNumElevators;
+    private javax.swing.JTextField fldNumFloors;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -307,7 +308,6 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblNumElevators;
     private javax.swing.JLabel lblNumFloors;
     private javax.swing.JLabel lblSimParam;
