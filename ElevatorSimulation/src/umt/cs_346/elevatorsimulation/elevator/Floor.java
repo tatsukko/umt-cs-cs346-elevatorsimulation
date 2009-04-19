@@ -50,7 +50,16 @@ public class Floor extends Polygon{
 	 * @param page Graphics object passed from Elevator objects
 	 */
 	private void drawFloorName(Graphics page){
-		page.drawString(Integer.toString(floorNumber + 1), xStart - 15, yStart - 3);
+		int iHeightOffSet = 3;
+		
+		int iSingleDigitOffSet = 15;
+		int iDoubleDigitOffSet = 18;
+		
+		if(floorNumber + 1 < 10){
+			page.drawString(Integer.toString(floorNumber + 1), xStart - iSingleDigitOffSet, yStart - iHeightOffSet);
+		}else{
+			page.drawString(Integer.toString(floorNumber + 1), xStart - iDoubleDigitOffSet, yStart - iHeightOffSet);
+		}
 	}
 	
 	/**

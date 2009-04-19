@@ -35,7 +35,9 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     }
 
     public void addElevatorTab(ElevatorList elevators){
-        tabbedPane.add("Elevators", new ElevatorTab(elevators));
+        //if(tabbedPane.getTabCount() == 0){
+            tabbedPane.add("Elevators", new ElevatorTab(elevators));
+       // }
         repaint();
     }
     private void addFloorButtons(int buttonCount){

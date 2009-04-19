@@ -68,6 +68,8 @@ public class Elevator extends JPanel {
 		drawFloors(page);
     	drawCarriage(page);
     	if(car.getY() == destinationFloor()){
+    		System.out.println(car.getY());
+    		System.out.println(destinationFloor());
     		stop();
     	}
 	}

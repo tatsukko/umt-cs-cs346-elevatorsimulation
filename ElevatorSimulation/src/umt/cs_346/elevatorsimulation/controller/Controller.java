@@ -60,20 +60,19 @@ public class Controller{
 	private void startSimulation(){
 		for(int i = 0; i < iElevators; i++){
 			elevators.get(i).start();
-			elevators.get(i).setNextFloor(i+1);
+			elevators.get(i).setNextFloor(i);
 		}
 	}
 
 	
 	private void update(){
-		timer.stop();
+		//timer.stop();
 		String action = ESGUI.getAction();
-		System.out.println(action);
 		
 		if(action != null){
 			action = action.toLowerCase();
 			ESGUI.resetAction();
-			
+			System.out.println(action);
 			if(action.equals("start")){
 				if(!elevators.isEmpty()){
 					startSimulation();
@@ -122,14 +121,19 @@ public class Controller{
 					consoleOut("Drawing Elevators");
 				}//End SET
 			else{
-				
+				if(action.startsWith("stop")){
+					timer.stop();
+					consoleOut("Execution has been stopped by the user.  Press \"Start\" to resume the simulation.");
+				}
+			else{
 				consoleOut(ConsoleCommand.UNKOWN);
+			}
 			}
 			}
 			}	
 			}
 		}
-		timer.start();
+		//timer.start();
 	}
 	
 	private int checkChar(char c){
