@@ -33,10 +33,8 @@ public class ElevatorCar extends Polygon{
 	}
 	
 	public void draw(Graphics page, int coordinate){
-		floorCoordinate = coordinate;
 		
-		
-				if(this.ypoints[0] > floorCoordinate){
+				if(this.getLocation() > coordinate){
 			
 					for(int i = 0; i < this.npoints; i++ ){
 						this.ypoints[i]--;
@@ -49,7 +47,6 @@ public class ElevatorCar extends Polygon{
 					}
 				}
 			
-		
 		page.setColor(Color.yellow);
 		page.drawPolygon(this);
 	}
@@ -100,8 +97,12 @@ public class ElevatorCar extends Polygon{
 		};
 		return yCoord;
 	}
-
-	public int getY(){
+	
+	/**
+	 * Gets the location 
+	 * @return int The y-coordinate value 
+	 */
+	public int getLocation(){
 		return this.ypoints[0];
 	}	
 }

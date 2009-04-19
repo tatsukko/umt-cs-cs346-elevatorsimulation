@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 
 /**
- * 
+ * A floor representation drawn on the elevator panel.
  * @author chanshew
  * @
  */
@@ -103,9 +103,18 @@ public class Floor extends Polygon{
 		};
 		return yCoord;
 	}
+	/**
+	 * Unimplemented Getter
+	 * @return 
+	 */
 	public int getXStart(){
 		return xStart;
 	}
+	/**
+	 * Returns a y-coordinate value that is checked against the current
+	 * location of the car
+	 * @return int the y-coordinate of this floor for bottom-left corner
+	 */
 	public int floorLimit(){
 		return yStart;
 	}

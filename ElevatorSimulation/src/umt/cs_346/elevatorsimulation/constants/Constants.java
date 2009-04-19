@@ -20,6 +20,8 @@ public class Constants {
     
     public static final int YSTART = 200;
     
+    public static final int ELEVATOR_DELAY = 125;
+    
     public static final String TITLE = "Elevator Simulation";
     
     public static final String DATE_FORMAT_NOW = "M-dd HH:mm:ss";

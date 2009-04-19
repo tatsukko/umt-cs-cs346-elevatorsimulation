@@ -41,7 +41,7 @@ public class Elevator extends JPanel {
 		panelDimension = new Dimension(50 , 20);
 		setPreferredSize(panelDimension);
 		setBackground(Color.GRAY);
-		timer = new Timer(150, new animate());
+		timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
 		
 	}
 	 private void initFloors(){
@@ -67,9 +67,7 @@ public class Elevator extends JPanel {
 
 		drawFloors(page);
     	drawCarriage(page);
-    	if(car.getY() == destinationFloor()){
-    		System.out.println(car.getY());
-    		System.out.println(destinationFloor());
+    	if(car.getLocation() == destinationFloor()){
     		stop();
     	}
 	}
@@ -117,12 +115,16 @@ public class Elevator extends JPanel {
 	/**
 	 * Sets the number of floors that this elevator shaft will display
 	 * @category Getter/Setter
-	 * @param i 
+	 * @param i The number of floors this elevator will draw.
 	 */
     private void setFloors(int i){
         iFloors = i;
     }
     
+    /**
+     * Determines the state of the elevator for the elevators timer.
+     * @return boolean Representing whether or not the elevator is serving a request.
+     */
     public boolean isIdle(){
     	boolean idle;
     	if(timer.isRunning()){
@@ -133,9 +135,11 @@ public class Elevator extends JPanel {
     	return idle;
     }
     
-    /****************************************************************
-     *Action Events
-     ***************************************************************/
+    /**
+     * Event class for the elevator panel.
+     * 
+     *
+     */
     public class animate implements ActionListener{
 	
 		public void actionPerformed(ActionEvent e) {

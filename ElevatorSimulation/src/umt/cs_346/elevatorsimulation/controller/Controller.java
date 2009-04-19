@@ -63,8 +63,9 @@ public class Controller{
 			elevators.get(i).setNextFloor(i);
 		}
 	}
-
-	
+	/**
+	 * 
+	 */
 	private void update(){
 		//timer.stop();
 		String action = ESGUI.getAction();
@@ -146,7 +147,26 @@ public class Controller{
 		}
 		return temp;
 	}
-	
+	/**
+	 * Request control logic.  Determines state of of every elevator and attempts to serve requests
+	 * efficiently.  Requests are scheduled based on the time the next elevator will be in service.
+	 * 
+	 * Time-to-completion is based on the delay of the elevators timed action event.
+	 * 
+	 * If the elevator has passengers and is moving to deliver them:
+	 * Time += (ElevatorDelay * DistanceToDestination) + (DoorManipulation * 2)
+	 * 
+	 * If the elevator has no passengers and is enroute to pick them up
+	 * Time += (ElevatorDelay * DistanceToRequest) + (ElevatorDelay * DistaceToDestination + (DoorManipulation *4)
+	 * 
+	 * All requests that are computed 
+	 * 
+	 * Elevators moving to a floor to pick up passengers will not get preference for unserved
+	 * requests.  Elevators that have passengers and are moving to their destination are eligible for 
+	 * requests if they fulfill several requirements
+	 * 
+	 * @param nextFloor
+	 */
 	private void serveRequest(int nextFloor){
 		for(int i = 0; i < elevators.size(); i++){
 			if(elevators.get(i).isIdle()){
