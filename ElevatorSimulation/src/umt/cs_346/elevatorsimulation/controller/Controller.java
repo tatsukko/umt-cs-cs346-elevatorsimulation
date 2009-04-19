@@ -86,16 +86,6 @@ public class Controller{
 					int currentFloor = 0;
 					int destination = 0;
 					
-					for(int i = 0; i < action.length(); i++){
-						
-						if(action.charAt(i) == 'c'){
-							currentFloor = checkChar(action.charAt(i + 1));
-						}else{
-							if(action.charAt(i) == 'd'){
-								destination = checkChar(action.charAt(i + 1));
-							}
-						}
-					}//End For
 					consoleOut("Request added to queue.: " + currentFloor
 								+ " to destination: " + destination);
 				}//End REQUEST
@@ -107,16 +97,9 @@ public class Controller{
 				}//End HELP
 			else{
 				if(action.startsWith("set -")){
-					for(int i = 0; i < action.length(); i++){
-						if(action.charAt(i) == 'e'){
-							iElevators = checkChar(action.charAt(i + 1));
-						}
-						else{
-							if(action.charAt(i) == 'f'){
-								iFloors = checkChar(action.charAt(i + 1));
-							}
-						}
-					}//End for
+					
+					String [] param = action.split("-");
+					
 					populateElevators();
 					ESGUI.addElevatorTab(elevators);
 					consoleOut("Drawing Elevators");
@@ -137,10 +120,10 @@ public class Controller{
 		//timer.start();
 	}
 	
-	private int checkChar(char c){
+	private int checkChar(String param[]){
 		int temp = 0;
 		try{
-			temp = Integer.parseInt(Character.toString(c));
+			//temp = Integer.parseInt(Character.toString(c));
 			System.out.println(temp);
 		}catch(NumberFormatException e){
 			//e.printStackTrace();

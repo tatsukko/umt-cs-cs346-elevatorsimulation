@@ -18,6 +18,7 @@ public class ElevatorCar extends Polygon{
 	private int [] yValues;
 	private Timer carTimer;
 	private int floorCoordinate;
+	private int iTimeToCompletion;
 	
 	public ElevatorCar(int x, int y){
 		
@@ -49,6 +50,10 @@ public class ElevatorCar extends Polygon{
 			
 		page.setColor(Color.yellow);
 		page.drawPolygon(this);
+	}
+	
+	private void calculateTimeToCompletion(){
+		
 	}
 	
 	private int [] createXArray(){
