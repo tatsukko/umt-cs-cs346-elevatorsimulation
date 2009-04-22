@@ -277,8 +277,8 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        action = "set " + "-e" + fldNumElevators.getText() +
-        " -f" + fldNumFloors.getText();
+        action = "set " + "-" + fldNumElevators.getText() +
+        "-" + fldNumFloors.getText();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

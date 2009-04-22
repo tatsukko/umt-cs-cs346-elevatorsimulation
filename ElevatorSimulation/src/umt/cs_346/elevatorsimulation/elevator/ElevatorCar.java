@@ -3,6 +3,8 @@ package umt.cs_346.elevatorsimulation.elevator;
 import java.awt.*;
 import javax.swing.*;
 
+import umt.cs_346.elevatorsimulation.constants.Constants;
+
 /**
  * 
  * @author Chris Hanshew
@@ -14,18 +16,14 @@ public class ElevatorCar extends Polygon{
 	
 	private int xStart;
 	private int yStart;
-	private int [] xValues;
-	private int [] yValues;
-	private Timer carTimer;
+
 	private int floorCoordinate;
 	private int iTimeToCompletion;
 	
 	public ElevatorCar(int x, int y){
 		
 		xStart = x;
-		yStart = y - 15;
-		xValues = createXArray();
-		yValues = createYArray();
+		yStart = y;
 		
 		this.xpoints = createXArray();
 		this.ypoints = createYArray();
@@ -35,19 +33,23 @@ public class ElevatorCar extends Polygon{
 	
 	public void draw(Graphics page, int coordinate){
 		
-				if(this.getLocation() > coordinate){
-			
-					for(int i = 0; i < this.npoints; i++ ){
-						this.ypoints[i]--;
-					}
-				
-				}else{
-				
-					for(int i = 0; i < this.npoints; i++ ){
-							this.ypoints[i]++;
-					}
+		if(this.getLocation() == coordinate){
+			//this.opendoors
+		}else{	
+			if(this.getLocation() > coordinate){
+		
+				for(int i = 0; i < this.npoints; i++ ){
+					this.ypoints[i]--;
 				}
 			
+			}else{
+			
+				for(int i = 0; i < this.npoints; i++ ){
+						this.ypoints[i]++;
+				}
+			}
+		}
+		
 		page.setColor(Color.yellow);
 		page.drawPolygon(this);
 	}
@@ -83,21 +85,21 @@ public class ElevatorCar extends Polygon{
 		int [] yCoord = {
 				yStart,
 				yStart,
-				yStart + 15,
+				yStart + Constants.CAR_HEIGHT,
 				yStart,
-				yStart - 15,
-				yStart - 15,
-				yStart,
-				yStart,
-				yStart - 15,
-				yStart - 15,
-				yStart,
-				yStart + 15,
-				yStart + 15,
+				yStart - Constants.CAR_HEIGHT,
+				yStart - Constants.CAR_HEIGHT,
 				yStart,
 				yStart,
-				yStart + 15,
-				yStart - 15,
+				yStart - Constants.CAR_HEIGHT,
+				yStart - Constants.CAR_HEIGHT,
+				yStart,
+				yStart + Constants.CAR_HEIGHT,
+				yStart + Constants.CAR_HEIGHT,
+				yStart,
+				yStart,
+				yStart + Constants.CAR_HEIGHT,
+				yStart - Constants.CAR_HEIGHT,
 				yStart,
 		};
 		return yCoord;

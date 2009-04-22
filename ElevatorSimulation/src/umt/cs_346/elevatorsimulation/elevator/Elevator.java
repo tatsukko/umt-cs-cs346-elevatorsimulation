@@ -12,7 +12,6 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 
 public class Elevator extends JPanel {
     
-    private final int xStart = 40;
 
 	private int iFloors;
 	private int iID;
@@ -31,31 +30,36 @@ public class Elevator extends JPanel {
 	public Elevator(int id, int floors){
 		iID = id;
         iFloors = floors;
-        car = new ElevatorCar(xStart, Constants.YSTART);
+        car = new ElevatorCar(Constants.XSTART, Constants.YSTART - 1);
         createPanel();
-        initFloors();
+        createFloors();
         nextFloor = 0;
+        timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
 	}
 	
 	private void createPanel(){
-		panelDimension = new Dimension(50 , 20);
-		setPreferredSize(panelDimension);
+		//panelDimension = new Dimension(100 , 0);
+		//setPreferredSize(panelDimension);
 		setBackground(Color.GRAY);
-		timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
+		
 		
 	}
-	 private void initFloors(){
+	 private void createFloors(){
 	    	
-	    	int iYStart = Constants.YSTART;
 	    	floors = new Floor[iFloors];
 	    	for(int i = 0; i < iFloors; i++ ){
-	    		Floor f = new Floor(xStart, iYStart -= 15, i);
+	    		Floor f = null;
+	    		if(i == 0){
+	    			f = new Floor(Constants.XSTART, Constants.YSTART, i);
+	    		}else{
+	    			f = new Floor(Constants.XSTART, floors[i - 1].upperBoundary(), i);
+	    		}
 	    		floors[i] = f;
 	    	}
 	}
 	
 	 private int destinationFloor(){
-		 return floors[nextFloor].floorLimit();
+		 return floors[nextFloor].lowerBoundary();
 	 }
 	/****************************************************************
 	 * Paint and Draw methods
@@ -71,12 +75,6 @@ public class Elevator extends JPanel {
     		stop();
     	}
 	}
-	public void start(){
-		timer.start();
-	}
-	public void stop(){
-		timer.stop();
-	}
     private void drawCarriage(Graphics page){
     	try{
     		car.draw(page, destinationFloor());
@@ -90,7 +88,16 @@ public class Elevator extends JPanel {
     		floors[i].draw(page);
     	}
     }
-   
+    
+	public void start(){
+		timer.start();
+	}
+	public void stop(){
+		timer.stop();
+	}
+	/****************************************************************
+	 * Buttons
+	 ****************************************************************/
     /****************************************************************
      * Getters and Setters
      ***************************************************************/

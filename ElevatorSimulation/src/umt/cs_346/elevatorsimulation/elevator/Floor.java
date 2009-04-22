@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
+import umt.cs_346.elevatorsimulation.constants.Constants;
+
+
 /**
  * A floor representation drawn on the elevator panel.
  * @author chanshew
@@ -91,14 +94,14 @@ public class Floor extends Polygon{
 		int [] yCoord = {
 				yStart,
 				yStart,
-				yStart + 15,
+				yStart + Constants.FLOOR_HEIGHT,
 				yStart,
-				yStart - 15,
-				yStart - 15,
+				yStart - Constants.FLOOR_HEIGHT,
+				yStart - Constants.FLOOR_HEIGHT,
 				yStart,
 				yStart,
-				yStart - 15,
-				yStart - 15,
+				yStart - Constants.FLOOR_HEIGHT,
+				yStart - Constants.FLOOR_HEIGHT,
 				yStart
 		};
 		return yCoord;
@@ -115,8 +118,11 @@ public class Floor extends Polygon{
 	 * location of the car
 	 * @return int the y-coordinate of this floor for bottom-left corner
 	 */
-	public int floorLimit(){
+	public int lowerBoundary(){
 		return yStart;
+	}
+	public int upperBoundary(){
+		return yStart - Constants.FLOOR_HEIGHT;
 	}
 
 }

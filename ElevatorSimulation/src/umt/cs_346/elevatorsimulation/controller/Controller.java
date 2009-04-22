@@ -99,6 +99,7 @@ public class Controller{
 				if(action.startsWith("set -")){
 					
 					String [] param = action.split("-");
+					setSimulationParamaters(param);
 					
 					populateElevators();
 					ESGUI.addElevatorTab(elevators);
@@ -120,15 +121,23 @@ public class Controller{
 		//timer.start();
 	}
 	
-	private int checkChar(String param[]){
-		int temp = 0;
-		try{
-			//temp = Integer.parseInt(Character.toString(c));
-			System.out.println(temp);
-		}catch(NumberFormatException e){
-			//e.printStackTrace();
+	private void setSimulationParamaters(String param[]){
+		int parsedValue = 0;
+		for(int i = 1; i < param.length; i++){
+			param[i].trim();
+			try{
+				parsedValue = Integer.parseInt(param[i]);
+				System.out.println(parsedValue);
+			}catch(NumberFormatException e){
+				e.printStackTrace();
+			}
+			if(i == 1){
+				iElevators = parsedValue; 
+			}else{
+				iFloors = parsedValue;
+			}
+			
 		}
-		return temp;
 	}
 	/**
 	 * Request control logic.  Determines state of of every elevator and attempts to serve requests
@@ -211,8 +220,5 @@ public class Controller{
 		public void actionPerformed(ActionEvent e) {
 			update();
 		}
-
-		
-		
 	}
 }
