@@ -59,8 +59,12 @@ public class Controller{
 	
 	private void startSimulation(){
 		for(int i = 0; i < iElevators; i++){
-			elevators.get(i).start();
-			elevators.get(i).setNextFloor(i);
+			//elevators.get(i).start();
+		}
+	}
+	private void stopSimulation(){
+		for(int i = 0; i < iElevators; i++){
+			elevators.get(i).stop();
 		}
 	}
 	/**
@@ -103,11 +107,12 @@ public class Controller{
 					
 					populateElevators();
 					ESGUI.addElevatorTab(elevators);
+					ESGUI.addFloorButtons(elevators.size());
 					consoleOut("Drawing Elevators");
 				}//End SET
 			else{
 				if(action.startsWith("stop")){
-					timer.stop();
+					stopSimulation();
 					consoleOut("Execution has been stopped by the user.  Press \"Start\" to resume the simulation.");
 				}
 			else{
@@ -122,21 +127,20 @@ public class Controller{
 	}
 	
 	private void setSimulationParamaters(String param[]){
-		int parsedValue = 0;
+		int iParsedValue = 0;
 		for(int i = 1; i < param.length; i++){
 			param[i].trim();
+			param[i].replace(" ", "");
 			try{
-				parsedValue = Integer.parseInt(param[i]);
-				System.out.println(parsedValue);
+				iParsedValue = Integer.parseInt(param[i]);
 			}catch(NumberFormatException e){
-				e.printStackTrace();
+				
 			}
 			if(i == 1){
-				iElevators = parsedValue; 
+				iElevators = iParsedValue; 
 			}else{
-				iFloors = parsedValue;
+				iFloors = iParsedValue;
 			}
-			
 		}
 	}
 	/**
@@ -162,7 +166,7 @@ public class Controller{
 	private void serveRequest(int nextFloor){
 		for(int i = 0; i < elevators.size(); i++){
 			if(elevators.get(i).isIdle()){
-				elevators.get(i).setNextFloor(nextFloor);
+				elevators.get(i).setNextFloor();
 				elevators.get(i).start();
 			}
 			break;

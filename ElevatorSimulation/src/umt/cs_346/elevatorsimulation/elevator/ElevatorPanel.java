@@ -6,30 +6,20 @@
 package umt.cs_346.elevatorsimulation.elevator;
 
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import javax.swing.JPanel;
+
+import umt.cs_346.elevatorsimulation.buttons.*;
+import umt.cs_346.elevatorsimulation.elevator.*;
 
 /**
  *
  * @author Hanshew
  */
 public class ElevatorPanel extends JPanel {
-
-    private int id;
-
-    public ElevatorPanel(){
-        buildPanel();
-    }
-
-    private void buildPanel(){
-        this.setLayout(new GridLayout(1, 2));
-       
-    }
-
-    public void setID(int i){
-        id = i;
-    }
-    public int getID(){
-        return id;
+	
+    public ElevatorPanel(Elevator elevator){
+    	this.setLayout(new GridLayout(1, 2));
+    	this.add(elevator);
+    	this.add(new ButtonPanel(elevator.getFloors()));
     }
 }

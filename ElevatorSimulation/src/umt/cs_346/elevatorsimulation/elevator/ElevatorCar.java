@@ -45,7 +45,7 @@ public class ElevatorCar extends Polygon{
 			}else{
 			
 				for(int i = 0; i < this.npoints; i++ ){
-						this.ypoints[i]++;
+					this.ypoints[i]++;
 				}
 			}
 		}

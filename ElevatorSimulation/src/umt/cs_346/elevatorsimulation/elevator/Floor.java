@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
+import javax.swing.JButton;
+
 import umt.cs_346.elevatorsimulation.constants.Constants;
 
 
@@ -17,8 +19,8 @@ public class Floor extends Polygon{
 	
 	private int xStart;
 	private int yStart;
-	private int floorNumber;
-	
+	private int iFloorNumber;
+	private JButton button = new JButton();
 	/**
 	 * Floor constructor
 	 * 
@@ -29,7 +31,7 @@ public class Floor extends Polygon{
 	public Floor(int x, int y, int floorNum){
 		xStart = x;
 		yStart = y;
-		floorNumber = floorNum;
+		iFloorNumber = floorNum;
 		this.xpoints = createXArray();
 		this.ypoints = createYArray();
 		this.npoints = this.ypoints.length;
@@ -58,10 +60,10 @@ public class Floor extends Polygon{
 		int iSingleDigitOffSet = 15;
 		int iDoubleDigitOffSet = 18;
 		
-		if(floorNumber + 1 < 10){
-			page.drawString(Integer.toString(floorNumber + 1), xStart - iSingleDigitOffSet, yStart - iHeightOffSet);
+		if(iFloorNumber + 1 < 10){
+			page.drawString(Integer.toString(iFloorNumber + 1), xStart - iSingleDigitOffSet, yStart - iHeightOffSet);
 		}else{
-			page.drawString(Integer.toString(floorNumber + 1), xStart - iDoubleDigitOffSet, yStart - iHeightOffSet);
+			page.drawString(Integer.toString(iFloorNumber + 1), xStart - iDoubleDigitOffSet, yStart - iHeightOffSet);
 		}
 	}
 	

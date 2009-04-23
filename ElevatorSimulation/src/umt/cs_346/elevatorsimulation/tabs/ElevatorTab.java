@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
+import umt.cs_346.elevatorsimulation.constants.SpringUtilities;
 import umt.cs_346.elevatorsimulation.elevator.*;
 
 /**
@@ -19,11 +21,14 @@ public class ElevatorTab extends JPanel{
 	private ElevatorList elevatorList;
     
     public ElevatorTab(ElevatorList elevators){
-        //layout = new BoxLayout(this, i);
+
         elevatorList = elevators;
         addElevators(elevatorList);
         this.setBackground(Color.GRAY);
-        //layout.addLayoutComponent(e, this);
+        this.setLayout(new GridLayout(2, 6, 5, 5));
+       
+        //this.setLayout(layout);
+        //SpringUtilities.makeGrid(this, 1, 1, 0, 0, 0, 0);
     }
     
     /**
@@ -32,8 +37,9 @@ public class ElevatorTab extends JPanel{
      * @param elevators ElevatorList containing all instances of the elevators to be displayed 
      */
     private void addElevators(ElevatorList elevators){
-    	System.out.println(elevators.size());
+    	/*
 		switch(elevators.size()){
+	
 			case 1:
 				this.setLayout(new GridLayout(1, 1));
 				break;
@@ -71,10 +77,10 @@ public class ElevatorTab extends JPanel{
 				this.setLayout(new GridLayout(2, 6));
 				break;
 		}
-	
+		*/
         for(int i = 0; i < elevators.size(); i++){
         	Elevator e = (Elevator)elevators.get(i);
-            this.add(e, i);
+            add(e);
         }
     }
 }

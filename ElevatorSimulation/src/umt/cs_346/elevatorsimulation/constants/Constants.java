@@ -16,12 +16,12 @@ public class Constants {
 	public static final int PANE_WIDTH = 900;
 	public static final int PANE_HEIGHT = 600;
 
-    public static final int FLOOR_HEIGHT = 19;
-    public static final int CAR_HEIGHT = 19;
+    public static final int FLOOR_HEIGHT = 15;
+    public static final int CAR_HEIGHT = 15;
     
     
     public static final int YSTART = 200;
-    public static final int XSTART = 30;
+    public static final int XSTART = 50;
     
     public static final int ELEVATOR_DELAY = 100;
     
