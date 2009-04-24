@@ -1,13 +1,10 @@
 package umt.cs_346.elevatorsimulation.buttons;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import umt.cs_346.elevatorsimulation.constants.Constants;
 
 import javax.swing.JButton;
 
-import umt.cs_346.elevatorsimulation.constants.Constants;
-
+@SuppressWarnings("serial")
 public class FloorButton extends JButton{
 	
 	private int iID;
@@ -15,9 +12,9 @@ public class FloorButton extends JButton{
 	public FloorButton(int id){
 		iID = id;
 		this.setText(" ");
-		this.setMaximumSize(new Dimension(20, 15));
-		this.setForeground(Color.lightGray);
-		this.setBackground(Color.lightGray);
+		this.setMaximumSize(Constants.FLOOR_BUTTON_DIMENSION);
+		this.setForeground(Constants.FLOOR_BUTTON_COLOR);
+		this.setBackground(Constants.FLOOR_BUTTON_COLOR);
 	}
 	
 	public int getID(){

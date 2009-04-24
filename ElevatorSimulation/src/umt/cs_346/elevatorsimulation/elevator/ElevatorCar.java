@@ -1,7 +1,6 @@
 package umt.cs_346.elevatorsimulation.elevator;
 
 import java.awt.*;
-import javax.swing.*;
 
 import umt.cs_346.elevatorsimulation.constants.Constants;
 
@@ -12,13 +11,11 @@ import umt.cs_346.elevatorsimulation.constants.Constants;
  * 
  */
 
+@SuppressWarnings("serial")
 public class ElevatorCar extends Polygon{
 	
 	private int xStart;
 	private int yStart;
-
-	private int floorCoordinate;
-	
 	
 	public ElevatorCar(int x, int y){
 		
@@ -54,10 +51,6 @@ public class ElevatorCar extends Polygon{
 		page.drawPolygon(this);
 	}
 	
-	private void calculateTimeToCompletion(){
-		
-	}
-	
 	private int [] createXArray(){
 		int [] xCoord = {
 				xStart,
@@ -81,6 +74,7 @@ public class ElevatorCar extends Polygon{
 		};
 		return xCoord;
 	}
+	
 	private int [] createYArray(){
 		int [] yCoord = {
 				yStart,

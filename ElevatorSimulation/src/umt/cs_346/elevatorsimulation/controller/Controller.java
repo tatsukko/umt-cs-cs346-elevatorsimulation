@@ -1,18 +1,14 @@
 package umt.cs_346.elevatorsimulation.controller;
 
-import umt.cs_346.elevatorsimulation.elevator.*;
-
 import umt.cs_346.elevatorsimulation.GUI.*;
-import umt.cs_346.elevatorsimulation.floorqueue.*;
 import umt.cs_346.elevatorsimulation.request.Request;
 import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
 import umt.cs_346.elevatorsimulation.elevator.Elevator;
 import umt.cs_346.elevatorsimulation.constants.*;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.util.Arrays;
 
+import java.awt.event.*;
 import javax.swing.Timer;
 
 /**
@@ -20,7 +16,6 @@ import javax.swing.Timer;
  */
 public class Controller{
 	
-	private FloorQueue queue;
 	private ElevatorList elevators;
 	
 	private int iElevators = 0;
@@ -39,14 +34,11 @@ public class Controller{
 		
 		ESGUI = new ElevatorSimulationUI(elevators);
 		ESGUI.consoleAppend("Simulation Intialized.  Welcome!  Type help for console commands.");
+		
 		start();
 	}
 	
-	/**
-	 * 
-	 * @param elevatorsNum
-	 */
-	private void populateElevators(){
+	private void populateElevatorList(){
 
 		for(int i = 0; i < iElevators; i++){
 			Elevator elevator = new Elevator(i, iFloors);
@@ -68,63 +60,52 @@ public class Controller{
 			elevators.get(i).stop();
 		}
 	}
-	/**
-	 * 
-	 */
+
 	private void update(){
 		String action = ESGUI.getAction();
 		
 		if(action != null){
 			action = action.toLowerCase();
 			ESGUI.resetAction();
-			//System.out.println(action);
 			if(action.equals("start")){
 				if(!elevators.isEmpty()){
 					startSimulation();
 					consoleOut("Simulation start");
 				}
 			}//End START
-			else{
-				if(action.startsWith("request -")){
+			else if(action.startsWith("request -")){
 					String [] param = action.split("-");
 					serveRequest(param);
 					consoleOut("Request served to Elevator " + shortestRequest.getID());
-				}//End REQUEST
-			else{
-				if(action.startsWith("help")){
+				}//End Request
+			else if(action.startsWith("help")){
 
 					openURL(Constants.COMMAND_URL);
 					consoleOut("help");
-				}//End HELP
-			else{
-				if(action.startsWith("set -")){
+				}//End Help
+			else if(action.startsWith("set -")){
 					
 					String [] param = action.split("-");
 					setSimulationParamaters(param);
-					
-					populateElevators();
-					ESGUI.addElevatorTab(elevators);
-					ESGUI.addFloorButtons(iFloors);
-					ESGUI.addMaintenceButtons(iFloors);
+					populateElevatorList();
+					ESGUI.addGUIComponents(elevators);
 					consoleOut("Drawing Elevators");
-				}//End SET
-			else{
-				if(action.startsWith("stop")){
+				}//End Parameter Set
+			else if(action.startsWith("stop")){
 					stopSimulation();
 					consoleOut("Execution has been stopped by the user.  Press \"Start\" to resume the simulation.");
-				}
-			else{
-				if(action.startsWith("maintenence -")){
+				}//End Stop
+			else if(action.startsWith("maintenance -")){
 					String [] param = action.split("-");
-					consoleOut("Maintence Scheduled for Elevator " + scheduleMaintence(param));
-				}
+					int iMaintenanceRequest = scheduleMaintenance(param);
+					if(elevators.get(iMaintenanceRequest).getMaintenance()){
+						consoleOut("Maintenence Scheduled for Elevator " + iMaintenanceRequest);
+					}else{
+						consoleOut("Maintenence Completed for Elevator " + iMaintenanceRequest);
+					}
+				}//End Maintenance
 			else{
 				consoleOut(ConsoleCommand.UNKOWN);
-			}
-			}
-			}
-			}
-			}	
 			}
 		}
 	}
@@ -144,7 +125,7 @@ public class Controller{
 			}
 		}
 	}
-	private int scheduleMaintence(String[] param){
+	private int scheduleMaintenance(String[] param){
 		int iParsedValue = 0;
 		for(int i = 1; i < param.length; i++){
 			try{
@@ -155,7 +136,7 @@ public class Controller{
 		}
 		for(int i = 0; i < elevators.size(); i++){
 			if((iParsedValue) == elevators.get(i).getID()){
-				elevators.get(i).setMaintenence();
+				elevators.get(i).setMaintenance();
 			}
 		}
 		return iParsedValue;
@@ -200,11 +181,12 @@ public class Controller{
 			elevatorRequests[i] = request;
 			elevatorTimeToCompletion[i] = request.getTime();
 		}
+		
 		Arrays.sort(elevatorTimeToCompletion);
 		
 		for(int i = 0; i < elevatorRequests.length; i++){
 			if(elevatorRequests[i].getTime() == (int)elevatorTimeToCompletion[0]){
-				if(!elevators.get(elevatorRequests[i].getID()).getMaintenence()){
+				if(!elevators.get(elevatorRequests[i].getID()).getMaintenance()){
 					elevators.get(elevatorRequests[i].getID()).addRequest(iParsedValue);
 					shortestRequest = elevatorRequests[i];
 					break;
@@ -227,9 +209,9 @@ public class Controller{
 	//     BareBonesBrowserLaunch.openURL(url);            //
 	//  Public Domain Software -- Free to Use as You Like  //
 	/////////////////////////////////////////////////////////
+	@SuppressWarnings("unchecked")
 	private static void openURL(String url) {
-		String errMsg = "Error attempting to launch web browser";
-	    String osName = System.getProperty("os.name");
+		String osName = System.getProperty("os.name");
 	    try {
 	    	if (osName.startsWith("Mac OS")) {
 	    		Class fileMgr = Class.forName("com.apple.eio.FileManager");
@@ -254,7 +236,6 @@ public class Controller{
 	            }
 	         }catch (Exception e) {
 	        	 e.printStackTrace();
-	        	  //showMessageDialog(null, errMsg + ":\n" + e.getLocalizedMessage());
 	         }
 	  }
 	

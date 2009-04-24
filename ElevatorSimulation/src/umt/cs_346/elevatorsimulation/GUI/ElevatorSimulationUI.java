@@ -20,17 +20,17 @@ import javax.swing.JButton;
 import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
 import umt.cs_346.elevatorsimulation.tabs.*;
 import umt.cs_346.elevatorsimulation.constants.Constants;
-import umt.cs_346.elevatorsimulation.buttons.*;
 
 
 /**
  *
- * @author Hanshew
+ * @author Chris Hanshew
  */
 public class ElevatorSimulationUI extends javax.swing.JFrame {
 
     private String currentTime;
     private String action;
+    private int iMaintenenceButtonCount;
 
     /** Creates new form ElevatorSimulationUI */
     public ElevatorSimulationUI(ElevatorList elevators) {
@@ -38,14 +38,13 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         this.setTitle(Constants.TITLE);
         this.setVisible(true);
     }
-
-    public void addElevatorTab(ElevatorList elevators){
-        //if(tabbedPane.getTabCount() == 0){
-            tabbedPane.add("Elevators", new ElevatorTab(elevators));
-       // }
-        repaint();
+    public void addGUIComponents(ElevatorList elevators){
+        tabbedPane.add("Elevators", new ElevatorTab(elevators));
+        addFloorButtons(elevators.get(0).getFloors());
+        addMaintenceButtons(elevators.size());
     }
-    public void addFloorButtons(int buttonCount){
+  
+    private void addFloorButtons(int buttonCount){
         JButton button = null;
         floorButtonPanel.setLayout(new GridLayout(12, 1, 0, 10));
         for(int i = 0; i < buttonCount; i++){
@@ -55,11 +54,9 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             button.addActionListener(new floorButtonListener());
             floorButtonPanel.add(button);
         }
-        //floorButtonPanel.setVisible(true);
-        //floorButtonPanel.updateUI();
     }
 
-    public void addMaintenceButtons(int buttonCount){
+    private void addMaintenceButtons(int buttonCount){
         JButton button = null;
         maintenceButtonPanel.setLayout(new GridLayout(12, 1, 0, 10));
          for(int i = 0; i < buttonCount; i++){
@@ -70,6 +67,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             maintenceButtonPanel.add(button);
         }
     }
+    
     public String getAction(){
         return action;
     }
@@ -331,20 +329,16 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSetParametersActionPerformed
 
     public class floorButtonListener implements ActionListener{
-
         public void actionPerformed(ActionEvent e) {
-            JButton b = (JButton)e.getSource();
-            action = "request -" + b.getText();
+            JButton button = (JButton)e.getSource();
+            action = "request -" + button.getText();
         }
-
     }
     public class maintenceButtonListener implements ActionListener{
-
         public void actionPerformed(ActionEvent e) {
-            JButton b = (JButton)e.getSource();
-            action = "maintenence -" + b.getText();
+            JButton button = (JButton)e.getSource();
+            action = "maintenance -" + button.getText();
         }
-
     }
     /**
     * @param args the command line arguments

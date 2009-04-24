@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
-import javax.swing.JButton;
-
 import umt.cs_346.elevatorsimulation.constants.Constants;
 
 
@@ -15,12 +13,13 @@ import umt.cs_346.elevatorsimulation.constants.Constants;
  * @
  */
 
+@SuppressWarnings("serial")
 public class Floor extends Polygon{
 	
 	private int xStart;
 	private int yStart;
 	private int iFloorNumber;
-	private JButton button = new JButton();
+	
 	/**
 	 * Floor constructor
 	 * 
@@ -38,7 +37,7 @@ public class Floor extends Polygon{
 	}
 	
 	/**
-	 * Draws this floor on the Elevator object's panel
+	 * Draws this floor on the Elevator class's panel
 	 * 
 	 * @param page Graphics object passed from Elevator objects
 	 */
@@ -108,24 +107,27 @@ public class Floor extends Polygon{
 		};
 		return yCoord;
 	}
-	/**
-	 * Unimplemented Getter
-	 * @return 
-	 */
-	public int getXStart(){
-		return xStart;
-	}
+	
 	/**
 	 * Returns a y-coordinate value that is checked against the current
 	 * location of the car
-	 * @return int the y-coordinate of this floor for bottom-left corner
+	 * @return int the y-coordinate of this floors bottom-left corner
 	 */
 	public int lowerBoundary(){
 		return yStart;
 	}
+	/**
+	 * Returns a y-coordinate value that is used in the drawing of other
+	 * floors
+	 * @return int the y-coordinate of this floors top-left corner
+	 */
 	public int upperBoundary(){
 		return yStart - Constants.FLOOR_HEIGHT;
 	}
+	/**
+	 * The "ID" of the floor.  
+	 * @return int
+	 */
 	public int getFloorNumber(){
 		return iFloorNumber;
 	}
