@@ -27,7 +27,7 @@ public class Elevator extends JPanel {
     private FloorButton[] buttons;
     
     private boolean bMaintenence;
-    
+    private boolean isIdle;
 	private ElevatorCar car;
 	
 	private MigLayout layout;
@@ -38,6 +38,7 @@ public class Elevator extends JPanel {
 
 	public Elevator(int id, int floors){
 		layout = new MigLayout("wrap");
+		this.setLayout(layout);
 		iID = id;
         iFloors = floors;
         car = new ElevatorCar(Constants.XSTART, Constants.YSTART - 1);
@@ -47,10 +48,11 @@ public class Elevator extends JPanel {
         iNextFloor = 0;
         bMaintenence = false;
         timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
+        stop();
+        
         floorQueue = new FloorQueue();
-        floorQueue.add(iNextFloor);
-        floorQueue.add(iNextFloor);
-        this.setLayout(layout);
+        //floorQueue.add(iNextFloor);
+        
 	}
 	
 	private void createPanel(){
@@ -95,11 +97,12 @@ public class Elevator extends JPanel {
 
 		drawFloors(page);
     	drawCarriage(page);
-    	
     	if(car.getLocation() == destinationFloor()){
     		if(floorQueue.size() >= 1){
     			floorQueue.remove(0);
+    			
     		}
+    		stop();
     	}
     	setNextFloor();
     	//iTimeToCompletion = destinationFloor() - car.getLocation();
@@ -125,6 +128,7 @@ public class Elevator extends JPanel {
     	}
     	System.out.println(bMaintenence);
     	floorQueue.add(0);
+    	start();
     	setNextFloor();
     }
 	public void start(){
@@ -144,6 +148,7 @@ public class Elevator extends JPanel {
     	if(floorQueue.size() > 0){
 	    	try{
 	    		iNextFloor = floorQueue.get(0);
+	    		start();
 	    	}catch(IndexOutOfBoundsException e){
 	    		e.printStackTrace();
 	    	}
@@ -179,7 +184,6 @@ public class Elevator extends JPanel {
      * @return boolean Representing whether or not the elevator is serving a request.
      */
     public boolean isIdle(){
-    	
     	boolean idle;
     	if(timer.isRunning()){
     		idle = false;
@@ -204,10 +208,11 @@ public class Elevator extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			
-			if(bMaintenence == false){
+			if(!bMaintenence){
 				FloorButton b = (FloorButton) e.getSource();
 				floorQueue.add(b.getID());
 				setNextFloor();
+				start();
 			}
 		}
     }
