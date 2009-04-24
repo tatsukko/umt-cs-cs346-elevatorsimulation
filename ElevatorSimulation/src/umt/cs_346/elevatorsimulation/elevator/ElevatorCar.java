@@ -18,7 +18,7 @@ public class ElevatorCar extends Polygon{
 	private int yStart;
 
 	private int floorCoordinate;
-	private int iTimeToCompletion;
+	
 	
 	public ElevatorCar(int x, int y){
 		

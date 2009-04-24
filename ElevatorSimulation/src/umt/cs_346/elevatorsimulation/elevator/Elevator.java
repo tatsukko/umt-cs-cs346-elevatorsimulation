@@ -19,13 +19,14 @@ public class Elevator extends JPanel {
 
 	private int iFloors;
 	private int iID;
+	private int iNextFloor = 0;
 	
-	private Timer timer= null;
+	private Timer timer;
     
     private Floor[] floors;
     private FloorButton[] buttons;
     
-    private int iNextFloor;
+    private boolean bMaintenence;
     
 	private ElevatorCar car;
 	
@@ -33,7 +34,7 @@ public class Elevator extends JPanel {
 	
 	private FloorQueue floorQueue;
 	
-    public Elevator(){}
+	private int iTimeToCompletion = 0;
 
 	public Elevator(int id, int floors){
 		layout = new MigLayout("wrap");
@@ -44,8 +45,11 @@ public class Elevator extends JPanel {
         createFloors();
         createButtons();
         iNextFloor = 0;
+        bMaintenence = false;
         timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
         floorQueue = new FloorQueue();
+        floorQueue.add(iNextFloor);
+        floorQueue.add(iNextFloor);
         this.setLayout(layout);
 	}
 	
@@ -53,20 +57,18 @@ public class Elevator extends JPanel {
 		Dimension panelDimension = new Dimension(150 , 300);
 		setPreferredSize(panelDimension);
 		setBackground(Color.GRAY);
-		//setBorder(BorderFactory.createLineBorder(Color.black));
-
 	}
 	private void createFloors(){
-	    	floors = new Floor[iFloors];
-	    	for(int i = 0; i < iFloors; i++ ){
-	    		Floor floor = null;
-	    		if(i == 0){
-	    			floor = new Floor(Constants.XSTART, Constants.YSTART, i);
-	    		}else{
-	    			floor = new Floor(Constants.XSTART, floors[i - 1].upperBoundary(), i);
-	    		}
-	    		floors[i] = floor;
-	    	}
+    	floors = new Floor[iFloors];
+    	for(int i = 0; i < iFloors; i++ ){
+    		Floor floor = null;
+    		if(i == 0){
+    			floor = new Floor(Constants.XSTART, Constants.YSTART, i);
+    		}else{
+    			floor = new Floor(Constants.XSTART, floors[i - 1].upperBoundary(), i);
+    		}
+    		floors[i] = floor;
+    	}
 	}
 	private void createButtons(){
 		buttons = new FloorButton[iFloors];
@@ -90,23 +92,22 @@ public class Elevator extends JPanel {
 	public void paintComponent(Graphics page){
 		
 		super.paintComponent(page);
-		
+
 		drawFloors(page);
     	drawCarriage(page);
+    	
     	if(car.getLocation() == destinationFloor()){
-    		if(floorQueue.size() > 0){
+    		if(floorQueue.size() >= 1){
     			floorQueue.remove(0);
     		}
-    		
-    		setNextFloor();
-    		
     	}
+    	setNextFloor();
+    	//iTimeToCompletion = destinationFloor() - car.getLocation();
 	}
     private void drawCarriage(Graphics page){
     	try{
     		car.draw(page, destinationFloor());
     	}catch(IndexOutOfBoundsException e){
-    		System.out.println("Elevator: " + iID);
     		e.printStackTrace();
     	}
     }
@@ -114,11 +115,18 @@ public class Elevator extends JPanel {
     	for(int i = 0; i < floors.length; i++){
     		floors[i].draw(page);
     		buttons[i].setLocation(10, floors[i].upperBoundary());
-    		//buttons[i].setMaximumSize(new Dimension(50, 15));
-    		setMaximumSize(new Dimension(200, 200));
     	}
     }
-    
+    public void setMaintenence(){
+    	if(bMaintenence == false){
+    		bMaintenence = true;
+    	}else{
+    		bMaintenence = false;
+    	}
+    	System.out.println(bMaintenence);
+    	floorQueue.add(0);
+    	setNextFloor();
+    }
 	public void start(){
 		timer.start();
 	}
@@ -132,11 +140,14 @@ public class Elevator extends JPanel {
      * Getters and Setters
      ***************************************************************/
     
-    public void setNextFloor(){
+    private void setNextFloor(){
     	if(floorQueue.size() > 0){
-    		iNextFloor = floorQueue.get(0);
+	    	try{
+	    		iNextFloor = floorQueue.get(0);
+	    	}catch(IndexOutOfBoundsException e){
+	    		e.printStackTrace();
+	    	}
     	}
-    	start();
     }
     
 	public void setID(int i){
@@ -187,16 +198,17 @@ public class Elevator extends JPanel {
 	
 		public void actionPerformed(ActionEvent e) {
 			repaint();
-			
 		} 	
     }
     public class buttonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			FloorButton b = (FloorButton) e.getSource();
-			floorQueue.add(b.getID());
-			setNextFloor();
-			System.out.println(b.getID());
+			
+			if(bMaintenence == false){
+				FloorButton b = (FloorButton) e.getSource();
+				floorQueue.add(b.getID());
+				setNextFloor();
+			}
 		}
     }
 }//end Elevator

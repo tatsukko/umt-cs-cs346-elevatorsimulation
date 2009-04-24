@@ -18,8 +18,6 @@ public class FloorButton extends JButton{
 		this.setMaximumSize(new Dimension(20, 15));
 		this.setForeground(Color.lightGray);
 		this.setBackground(Color.lightGray);
-		//setFont(new Font(Font.SANS_SERIF, Font.TRUETYPE_FONT, 8));
-		
 	}
 	
 	public int getID(){

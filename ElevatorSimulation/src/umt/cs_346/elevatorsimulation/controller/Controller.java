@@ -50,6 +50,7 @@ public class Controller{
 
 		for(int i = 0; i < iElevators; i++){
 			Elevator elevator = new Elevator(i, iFloors);
+			elevator.setID(i);
 			elevators.add(elevator);
 		}
 	}
@@ -59,7 +60,7 @@ public class Controller{
 	
 	private void startSimulation(){
 		for(int i = 0; i < iElevators; i++){
-			//elevators.get(i).start();
+			elevators.get(i).start();
 		}
 	}
 	private void stopSimulation(){
@@ -71,7 +72,6 @@ public class Controller{
 	 * 
 	 */
 	private void update(){
-		//timer.stop();
 		String action = ESGUI.getAction();
 		
 		if(action != null){
@@ -81,7 +81,6 @@ public class Controller{
 			if(action.equals("start")){
 				if(!elevators.isEmpty()){
 					startSimulation();
-					serveRequest(7);
 					consoleOut("Simulation start");
 				}
 			}//End START
@@ -107,7 +106,8 @@ public class Controller{
 					
 					populateElevators();
 					ESGUI.addElevatorTab(elevators);
-					ESGUI.addFloorButtons(elevators.size());
+					ESGUI.addFloorButtons(iFloors);
+					ESGUI.addMaintenceButtons(iFloors);
 					consoleOut("Drawing Elevators");
 				}//End SET
 			else{
@@ -116,14 +116,19 @@ public class Controller{
 					consoleOut("Execution has been stopped by the user.  Press \"Start\" to resume the simulation.");
 				}
 			else{
+				if(action.startsWith("maintenence -")){
+					String [] param = action.split("-");
+					consoleOut("Maintence Scheduled for Elevator " + scheduleMaintence(param));
+				}
+			else{
 				consoleOut(ConsoleCommand.UNKOWN);
+			}
 			}
 			}
 			}
 			}	
 			}
 		}
-		//timer.start();
 	}
 	
 	private void setSimulationParamaters(String param[]){
@@ -142,6 +147,25 @@ public class Controller{
 				iFloors = iParsedValue;
 			}
 		}
+	}
+	private int scheduleMaintence(String param[]){
+		int iParsedValue = 0;
+		for(int i = 1; i < param.length; i++){
+			param[i].trim();
+			param[i].replace(" ", "");
+			try{
+				iParsedValue = Integer.parseInt(param[i]) - 1;
+				System.out.println(iParsedValue);
+			}catch(NumberFormatException e){
+				
+			}
+		}
+		for(int i = 0; i < elevators.size(); i++){
+			if((iParsedValue) == elevators.get(i).getID()){
+				elevators.get(i).setMaintenence();
+			}
+		}
+		return iParsedValue;
 	}
 	/**
 	 * Request control logic.  Determines state of of every elevator and attempts to serve requests
@@ -166,7 +190,6 @@ public class Controller{
 	private void serveRequest(int nextFloor){
 		for(int i = 0; i < elevators.size(); i++){
 			if(elevators.get(i).isIdle()){
-				elevators.get(i).setNextFloor();
 				elevators.get(i).start();
 			}
 			break;

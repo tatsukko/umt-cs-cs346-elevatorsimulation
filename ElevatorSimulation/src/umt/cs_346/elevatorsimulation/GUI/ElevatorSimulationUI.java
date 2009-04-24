@@ -11,6 +11,10 @@
 
 package umt.cs_346.elevatorsimulation.GUI;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
@@ -42,11 +46,29 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         repaint();
     }
     public void addFloorButtons(int buttonCount){
+        JButton button = null;
+        floorButtonPanel.setLayout(new GridLayout(12, 1, 0, 10));
         for(int i = 0; i < buttonCount; i++){
-            JButton button = new JButton();
+            button = new JButton();
+            button.setPreferredSize(new Dimension(50, 30));
+            button.setText(Integer.valueOf(i + 1).toString());
+            button.addActionListener(new floorButtonListener());
             floorButtonPanel.add(button);
         }
-       floorButtonPanel.updateUI();
+        //floorButtonPanel.setVisible(true);
+        //floorButtonPanel.updateUI();
+    }
+
+    public void addMaintenceButtons(int buttonCount){
+        JButton button = null;
+        maintenceButtonPanel.setLayout(new GridLayout(12, 1, 0, 10));
+         for(int i = 0; i < buttonCount; i++){
+            button = new JButton();
+            button.setPreferredSize(new Dimension(50, 30));
+            button.setText(Integer.valueOf(i + 1).toString());
+            button.addActionListener(new maintenceButtonListener());
+            maintenceButtonPanel.add(button);
+        }
     }
     public String getAction(){
         return action;
@@ -131,21 +153,21 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        lblFloorButtons.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFloorButtons.setFont(new java.awt.Font("Tahoma", 0, 14));
         lblFloorButtons.setText("Floor Buttons");
 
-        floorButtonPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         floorButtonPanel.setDoubleBuffered(false);
+        floorButtonPanel.setPreferredSize(new java.awt.Dimension(80, 418));
 
         javax.swing.GroupLayout floorButtonPanelLayout = new javax.swing.GroupLayout(floorButtonPanel);
         floorButtonPanel.setLayout(floorButtonPanelLayout);
         floorButtonPanelLayout.setHorizontalGroup(
             floorButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 82, Short.MAX_VALUE)
         );
         floorButtonPanelLayout.setVerticalGroup(
             floorButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 418, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(consoleOut);
@@ -156,20 +178,20 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        lblMaintence.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblMaintence.setFont(new java.awt.Font("Tahoma", 0, 14));
         lblMaintence.setText("Maintenence");
 
-        maintenceButtonPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        maintenceButtonPanel.setPreferredSize(new java.awt.Dimension(80, 418));
 
         javax.swing.GroupLayout maintenceButtonPanelLayout = new javax.swing.GroupLayout(maintenceButtonPanel);
         maintenceButtonPanel.setLayout(maintenceButtonPanelLayout);
         maintenceButtonPanelLayout.setHorizontalGroup(
             maintenceButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 80, Short.MAX_VALUE)
         );
         maintenceButtonPanelLayout.setVerticalGroup(
             maintenceButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 418, Short.MAX_VALUE)
         );
 
         btnSetParameters.setText("Set Parameters");
@@ -179,7 +201,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14));
         jLabel1.setText("Simulation Control");
 
         jMenu1.setText("File");
@@ -210,14 +232,14 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
                                     .addComponent(fldNumElevators, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))))
                         .addGap(65, 65, 65))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(floorButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFloorButtons))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblMaintence)
-                            .addComponent(maintenceButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(floorButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                            .addComponent(lblFloorButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(maintenceButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMaintence, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(24, 24, 24))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(btnSetParameters))
@@ -308,6 +330,22 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
          action = "set " + "-" + fldNumElevators.getText() + "-" + fldNumFloors.getText();
     }//GEN-LAST:event_btnSetParametersActionPerformed
 
+    public class floorButtonListener implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+            JButton b = (JButton)e.getSource();
+            System.out.println(b.getText());
+        }
+
+    }
+    public class maintenceButtonListener implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+            JButton b = (JButton)e.getSource();
+            action = "maintenence -" + b.getText();
+        }
+
+    }
     /**
     * @param args the command line arguments
     */
