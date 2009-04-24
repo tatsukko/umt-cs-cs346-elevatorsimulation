@@ -70,13 +70,13 @@ public class Controller{
 			if(action.equals("start")){
 				if(!elevators.isEmpty()){
 					startSimulation();
-					consoleOut("Simulation start");
+					consoleOut(ConsoleCommands.SIMULATION_START);
 				}
 			}//End START
 			else if(action.startsWith("request -")){
 					String [] param = action.split("-");
 					serveRequest(param);
-					consoleOut("Request served to Elevator " + shortestRequest.getID());
+					consoleOut(ConsoleCommands.FLOOR_REQUEST + shortestRequest.getID());
 				}//End Request
 			else if(action.startsWith("help")){
 
@@ -89,23 +89,23 @@ public class Controller{
 					setSimulationParamaters(param);
 					populateElevatorList();
 					ESGUI.addGUIComponents(elevators);
-					consoleOut("Drawing Elevators");
+					consoleOut(ConsoleCommands.INITIALIZE_COMPONENTS);
 				}//End Parameter Set
 			else if(action.startsWith("stop")){
 					stopSimulation();
-					consoleOut("Execution has been stopped by the user.  Press \"Start\" to resume the simulation.");
+					consoleOut(ConsoleCommands.SIMULATION_STOP);
 				}//End Stop
 			else if(action.startsWith("maintenance -")){
 					String [] param = action.split("-");
 					int iMaintenanceRequest = scheduleMaintenance(param);
 					if(elevators.get(iMaintenanceRequest).getMaintenance()){
-						consoleOut("Maintenence Scheduled for Elevator " + iMaintenanceRequest);
+						consoleOut(ConsoleCommands.MAINTENANCE_REQUEST + iMaintenanceRequest);
 					}else{
-						consoleOut("Maintenence Completed for Elevator " + iMaintenanceRequest);
+						consoleOut(ConsoleCommands.MAINTENANCE_COMPLETED + iMaintenanceRequest);
 					}
 				}//End Maintenance
 			else{
-				consoleOut(ConsoleCommand.UNKOWN);
+				consoleOut(ConsoleCommands.UNKOWN);
 			}
 		}
 	}

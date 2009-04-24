@@ -12,7 +12,6 @@ import umt.cs_346.elevatorsimulation.constants.Constants;
 import umt.cs_346.elevatorsimulation.floorqueue.*;
 
 @SuppressWarnings("serial")
-
 public class Elevator extends JPanel {
   
 	private int iFloors;
