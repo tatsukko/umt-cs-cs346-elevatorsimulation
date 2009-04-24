@@ -4,12 +4,14 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 
 import umt.cs_346.elevatorsimulation.GUI.*;
 import umt.cs_346.elevatorsimulation.floorqueue.*;
+import umt.cs_346.elevatorsimulation.request.Request;
 import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
 import umt.cs_346.elevatorsimulation.elevator.Elevator;
 import umt.cs_346.elevatorsimulation.constants.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 import javax.swing.Timer;
 
@@ -27,10 +29,8 @@ public class Controller{
 	private Timer timer;
 
 	private ElevatorSimulationUI ESGUI;
+	private Request shortestRequest = null;
 	
-	/**
-	 * 
-	 */
 	public Controller(){
 		
 		timer = new Timer(50, new updateControl());
@@ -77,7 +77,7 @@ public class Controller{
 		if(action != null){
 			action = action.toLowerCase();
 			ESGUI.resetAction();
-			System.out.println(action);
+			//System.out.println(action);
 			if(action.equals("start")){
 				if(!elevators.isEmpty()){
 					startSimulation();
@@ -88,7 +88,7 @@ public class Controller{
 				if(action.startsWith("request -")){
 					String [] param = action.split("-");
 					serveRequest(param);
-					consoleOut("Request");
+					consoleOut("Request served to Elevator " + shortestRequest.getID());
 				}//End REQUEST
 			else{
 				if(action.startsWith("help")){
@@ -180,19 +180,38 @@ public class Controller{
 	 * 
 	 * @param nextFloor
 	 */
-	private int serveRequest(String[] param){
+	private Request serveRequest(String[] param){
 		int iParsedValue = 0;
+	
 		for(int i = 1; i < param.length; i++){
 			try{
 				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
+				System.out.println(iParsedValue);
 			}catch(NumberFormatException e){
 				
 			}
 		}
+		
+		int [] elevatorTimeToCompletion = new int [elevators.size()];
+		Request [] elevatorRequests = new Request[elevators.size()];
+		
 		for(int i = 0; i < elevators.size(); i++){
-			
+			Request request = new Request(elevators.get(i).getID() ,elevators.get(i).getTimeToCompletion());
+			elevatorRequests[i] = request;
+			elevatorTimeToCompletion[i] = request.getTime();
 		}
-		return iParsedValue;
+		Arrays.sort(elevatorTimeToCompletion);
+		
+		for(int i = 0; i < elevatorRequests.length; i++){
+			if(elevatorRequests[i].getTime() == (int)elevatorTimeToCompletion[0]){
+				if(!elevators.get(elevatorRequests[i].getID()).getMaintenence()){
+					elevators.get(elevatorRequests[i].getID()).addRequest(iParsedValue);
+					shortestRequest = elevatorRequests[i];
+					break;
+				}
+			}
+		}
+		return shortestRequest;
 	}
 	
 	private void consoleOut(String s){

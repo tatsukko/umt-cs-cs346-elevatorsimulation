@@ -108,7 +108,6 @@ public class Elevator extends JPanel {
     		}
     		
     	}
-    	System.out.println("SIZE " + floorQueue.size());
     	setNextFloor();
     	//iTimeToCompletion = destinationFloor() - car.getLocation();
 	}
@@ -132,7 +131,6 @@ public class Elevator extends JPanel {
 	    	}else{
 	    		bMaintenence = false;
 	    	}
-	    	System.out.println(bMaintenence);
 	    	floorQueue.add(0);
 	    	setNextFloor();
     	}
@@ -185,13 +183,19 @@ public class Elevator extends JPanel {
 		
 		return iTimeToCompletion;
     }
+    public void addRequest(int requestedFloor){
+    	floorQueue.add(requestedFloor);
+    	setNextFloor();
+    }
     public int getTimeToCompletion(){
     	return iTimeToCompletion;
     }
 	public void setID(int i){
 		iID = i;
 	}
-	
+	public boolean getMaintenence(){
+		return bMaintenence;
+	}
 	/**
 	 * Returns an integer representing the unique ID of this elevator
 	 * @category Getter/Setter
@@ -228,7 +232,6 @@ public class Elevator extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			repaint();
-			System.out.println(getTimeToCompletion());
 		} 	
     }
     public class buttonListener implements ActionListener{
@@ -239,7 +242,6 @@ public class Elevator extends JPanel {
 				FloorButton b = (FloorButton) e.getSource();
 				floorQueue.add(b.getID());
 				setNextFloor();
-				
 			}
 		}
     }
