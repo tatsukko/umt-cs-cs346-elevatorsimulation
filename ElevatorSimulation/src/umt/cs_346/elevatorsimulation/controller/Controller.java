@@ -86,11 +86,9 @@ public class Controller{
 			}//End START
 			else{
 				if(action.startsWith("request -")){
-					int currentFloor = 0;
-					int destination = 0;
-					
-					consoleOut("Request added to queue.: " + currentFloor
-								+ " to destination: " + destination);
+					String [] param = action.split("-");
+					serveRequest(param);
+					consoleOut("Request");
 				}//End REQUEST
 			else{
 				if(action.startsWith("help")){
@@ -131,11 +129,9 @@ public class Controller{
 		}
 	}
 	
-	private void setSimulationParamaters(String param[]){
+	private void setSimulationParamaters(String[] param){
 		int iParsedValue = 0;
 		for(int i = 1; i < param.length; i++){
-			param[i].trim();
-			param[i].replace(" ", "");
 			try{
 				iParsedValue = Integer.parseInt(param[i]);
 			}catch(NumberFormatException e){
@@ -148,14 +144,11 @@ public class Controller{
 			}
 		}
 	}
-	private int scheduleMaintence(String param[]){
+	private int scheduleMaintence(String[] param){
 		int iParsedValue = 0;
 		for(int i = 1; i < param.length; i++){
-			param[i].trim();
-			param[i].replace(" ", "");
 			try{
-				iParsedValue = Integer.parseInt(param[i]) - 1;
-				System.out.println(iParsedValue);
+				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
 			}catch(NumberFormatException e){
 				
 			}
@@ -187,13 +180,19 @@ public class Controller{
 	 * 
 	 * @param nextFloor
 	 */
-	private void serveRequest(int nextFloor){
-		for(int i = 0; i < elevators.size(); i++){
-			if(elevators.get(i).isIdle()){
-				elevators.get(i).start();
+	private int serveRequest(String[] param){
+		int iParsedValue = 0;
+		for(int i = 1; i < param.length; i++){
+			try{
+				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
+			}catch(NumberFormatException e){
+				
 			}
-			break;
 		}
+		for(int i = 0; i < elevators.size(); i++){
+			
+		}
+		return iParsedValue;
 	}
 	
 	private void consoleOut(String s){

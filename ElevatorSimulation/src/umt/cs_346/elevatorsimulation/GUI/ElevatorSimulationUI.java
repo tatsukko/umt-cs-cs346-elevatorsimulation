@@ -334,7 +334,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
 
         public void actionPerformed(ActionEvent e) {
             JButton b = (JButton)e.getSource();
-            System.out.println(b.getText());
+            action = "request -" + b.getText();
         }
 
     }

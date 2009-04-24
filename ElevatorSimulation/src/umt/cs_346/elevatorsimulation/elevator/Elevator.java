@@ -20,39 +20,38 @@ public class Elevator extends JPanel {
 	private int iFloors;
 	private int iID;
 	private int iNextFloor = 0;
+	private int iTimeToCompletion = 0;
 	
-	private Timer timer;
-    
-    private Floor[] floors;
+	private boolean bMaintenence;
+	
+	private Floor[] floors;
     private FloorButton[] buttons;
     
-    private boolean bMaintenence;
-    private boolean isIdle;
+    private Timer timer;
+  
 	private ElevatorCar car;
 	
 	private MigLayout layout;
 	
 	private FloorQueue floorQueue;
 	
-	private int iTimeToCompletion = 0;
-
 	public Elevator(int id, int floors){
-		layout = new MigLayout("wrap");
-		this.setLayout(layout);
+		
 		iID = id;
         iFloors = floors;
         car = new ElevatorCar(Constants.XSTART, Constants.YSTART - 1);
-        createPanel();
-        createFloors();
-        createButtons();
-        iNextFloor = 0;
+       
         bMaintenence = false;
+       
         timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
-        stop();
         
         floorQueue = new FloorQueue();
-        //floorQueue.add(iNextFloor);
         
+        layout = new MigLayout("wrap");
+		this.setLayout(layout);
+		this.createPanel();
+	    this.createFloors();
+	    this.createButtons();
 	}
 	
 	private void createPanel(){
@@ -94,16 +93,22 @@ public class Elevator extends JPanel {
 	public void paintComponent(Graphics page){
 		
 		super.paintComponent(page);
-
+		calculateTimeToCompletion();
 		drawFloors(page);
     	drawCarriage(page);
-    	if(car.getLocation() == destinationFloor()){
+    	if(car.getLocation() != destinationFloor()){
+    		//if(car.getLocation() > destinationFloor()){
+    			
+    		//}else{
+    			//iTimeToCompletion++;
+    		//}
+    	}else{
     		if(floorQueue.size() >= 1){
     			floorQueue.remove(0);
-    			
     		}
-    		stop();
+    		
     	}
+    	System.out.println("SIZE " + floorQueue.size());
     	setNextFloor();
     	//iTimeToCompletion = destinationFloor() - car.getLocation();
 	}
@@ -121,15 +126,16 @@ public class Elevator extends JPanel {
     	}
     }
     public void setMaintenence(){
-    	if(bMaintenence == false){
-    		bMaintenence = true;
-    	}else{
-    		bMaintenence = false;
+    	if(timer.isRunning()){
+	    	if(bMaintenence == false){
+	    		bMaintenence = true;
+	    	}else{
+	    		bMaintenence = false;
+	    	}
+	    	System.out.println(bMaintenence);
+	    	floorQueue.add(0);
+	    	setNextFloor();
     	}
-    	System.out.println(bMaintenence);
-    	floorQueue.add(0);
-    	start();
-    	setNextFloor();
     }
 	public void start(){
 		timer.start();
@@ -148,13 +154,40 @@ public class Elevator extends JPanel {
     	if(floorQueue.size() > 0){
 	    	try{
 	    		iNextFloor = floorQueue.get(0);
-	    		start();
+	 
 	    	}catch(IndexOutOfBoundsException e){
 	    		e.printStackTrace();
 	    	}
     	}
+    	
     }
     
+    private int calculateTimeToCompletion(){
+		iTimeToCompletion = 0;
+    	
+    	if(car.getLocation() <= destinationFloor()){
+    		iTimeToCompletion += destinationFloor() - car.getLocation();
+    	}else{
+    		iTimeToCompletion += car.getLocation() - destinationFloor();
+    	}
+    	if(floorQueue.size() >= 2){
+	    	for(int i = 0; i < floorQueue.size() - 1; i++){
+	    		if(floors[floorQueue.get(i)].lowerBoundary() <= 
+	    		   floors[floorQueue.get(i + 1)].lowerBoundary()){
+	    			
+	    			iTimeToCompletion += floors[floorQueue.get(i + 1)].lowerBoundary() - floors[floorQueue.get(i)].lowerBoundary();
+	    			
+	    		}else{
+	    			iTimeToCompletion += floors[floorQueue.get(i)].lowerBoundary() - floors[floorQueue.get(i + 1)].lowerBoundary();
+	    		}
+	    	}
+    	}
+		
+		return iTimeToCompletion;
+    }
+    public int getTimeToCompletion(){
+    	return iTimeToCompletion;
+    }
 	public void setID(int i){
 		iID = i;
 	}
@@ -183,15 +216,7 @@ public class Elevator extends JPanel {
      * Determines the state of the elevator for the elevators timer.
      * @return boolean Representing whether or not the elevator is serving a request.
      */
-    public boolean isIdle(){
-    	boolean idle;
-    	if(timer.isRunning()){
-    		idle = false;
-    	}else{
-    		idle = true;
-    	}
-    	return idle;
-    }
+   
     
     /**
      * Event class for the elevator panel.
@@ -201,18 +226,20 @@ public class Elevator extends JPanel {
     public class animate implements ActionListener{
 	
 		public void actionPerformed(ActionEvent e) {
+			
 			repaint();
+			System.out.println(getTimeToCompletion());
 		} 	
     }
     public class buttonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			if(!bMaintenence){
+			if(!bMaintenence && timer.isRunning()){
 				FloorButton b = (FloorButton) e.getSource();
 				floorQueue.add(b.getID());
 				setNextFloor();
-				start();
+				
 			}
 		}
     }

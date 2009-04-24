@@ -126,5 +126,7 @@ public class Floor extends Polygon{
 	public int upperBoundary(){
 		return yStart - Constants.FLOOR_HEIGHT;
 	}
-
+	public int getFloorNumber(){
+		return iFloorNumber;
+	}
 }

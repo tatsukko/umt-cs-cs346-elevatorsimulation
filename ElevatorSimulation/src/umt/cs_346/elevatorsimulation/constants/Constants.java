@@ -24,9 +24,9 @@ public class Constants {
     public static final int XSTART = 50;
     
     public static final int ELEVATOR_DELAY = 100;
-    
+    public static final int BUTTON_VALUE_OFFSET = 1;
     public static final String TITLE = "Elevator Simulation";
-    
+   
     public static final String DATE_FORMAT_NOW = "M-dd HH:mm:ss";
     
     public static final String COMMAND_URL = "http://www.chrishanshew.com/elevatorsimulation/consolecommands.html";
