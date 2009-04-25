@@ -101,7 +101,7 @@ public class ElevatorCar extends Polygon{
 	}
 	
 	/**
-	 * Gets the location 
+	 * Gets the location of the cars lower left corner
 	 * @return int The y-coordinate value 
 	 */
 	public int getLocation(){
