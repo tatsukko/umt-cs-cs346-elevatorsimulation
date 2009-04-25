@@ -5,10 +5,9 @@ import java.awt.*;
 import umt.cs_346.elevatorsimulation.constants.Constants;
 
 /**
+ * Elevator car that is drawn on the Elevator panel.
  * 
  * @author Chris Hanshew
- * @created 4/12/09
- * 
  */
 
 @SuppressWarnings("serial")
@@ -16,7 +15,7 @@ public class ElevatorCar extends Polygon{
 	
 	private int xStart;
 	private int yStart;
-	
+
 	public ElevatorCar(int x, int y){
 		
 		xStart = x;
@@ -25,14 +24,15 @@ public class ElevatorCar extends Polygon{
 		this.xpoints = createXArray();
 		this.ypoints = createYArray();
 		this.npoints = this.ypoints.length;
-
+		
 	}
 	
 	public void draw(Graphics page, int coordinate){
 		
 		if(this.getLocation() == coordinate){
-			//this.opendoors
+
 		}else{	
+		
 			if(this.getLocation() > coordinate){
 		
 				for(int i = 0; i < this.npoints; i++ ){
@@ -45,6 +45,7 @@ public class ElevatorCar extends Polygon{
 					this.ypoints[i]++;
 				}
 			}
+		
 		}
 		
 		page.setColor(Color.yellow);

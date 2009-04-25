@@ -6,6 +6,7 @@ import umt.cs_346.elevatorsimulation.elevator.*;
 import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
+
 /**
  * Swing component to display elevator objects.
  * Displayed as a tab in the GUI's tabbed pane.

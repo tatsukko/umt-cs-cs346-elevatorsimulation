@@ -9,8 +9,7 @@ import umt.cs_346.elevatorsimulation.constants.Constants;
 
 /**
  * A floor representation drawn on the elevator panel.
- * @author chanshew
- * @
+ * @author Chris Hanshew
  */
 
 @SuppressWarnings("serial")

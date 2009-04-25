@@ -3,13 +3,12 @@ package umt.cs_346.elevatorsimulation.constants;
 import java.util.Calendar;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 
 /**
- * Class containing static values that are referenced throughout
- * the application.
- * @author chanshew
- *
+ * Class containing static values that are referenced throughout the application.
+ * @author Chris Hanshew
  */
 public class Constants {
 	
@@ -37,6 +36,10 @@ public class Constants {
     
     public static final Dimension FLOOR_BUTTON_DIMENSION = new Dimension(20, 15);
     public static final Color FLOOR_BUTTON_COLOR = new Color(Color.lightGray.getRGB());
+    
+    public static final GridLayout GUI_BUTTON_LAYOUT = new GridLayout(12, 1, 0, 10);
+    
+    public static final Dimension ERROR_FRAME_DIMENSION = new Dimension(200, 300);
     
     public static String currentTime() {
         Calendar cal = Calendar.getInstance();

@@ -1,8 +1,13 @@
 package umt.cs_346.elevatorsimulation.buttons;
 
 import umt.cs_346.elevatorsimulation.constants.Constants;
-
 import javax.swing.JButton;
+
+/**
+ * Custom button used by the Elevator class to represent floor buttons.
+ * 
+ * @author Chris Hanshew
+ */
 
 @SuppressWarnings("serial")
 public class FloorButton extends JButton{
@@ -11,10 +16,10 @@ public class FloorButton extends JButton{
 	
 	public FloorButton(int id){
 		iID = id;
-		this.setText(" ");
-		this.setMaximumSize(Constants.FLOOR_BUTTON_DIMENSION);
-		this.setForeground(Constants.FLOOR_BUTTON_COLOR);
-		this.setBackground(Constants.FLOOR_BUTTON_COLOR);
+		setText(" ");
+		setMaximumSize(Constants.FLOOR_BUTTON_DIMENSION);
+		setForeground(Constants.FLOOR_BUTTON_COLOR);
+		setBackground(Constants.FLOOR_BUTTON_COLOR);
 	}
 	
 	public int getID(){

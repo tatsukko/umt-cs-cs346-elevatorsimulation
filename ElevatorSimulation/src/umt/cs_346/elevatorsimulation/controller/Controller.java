@@ -1,3 +1,5 @@
+
+
 package umt.cs_346.elevatorsimulation.controller;
 
 import umt.cs_346.elevatorsimulation.GUI.*;
@@ -12,8 +14,11 @@ import java.awt.event.*;
 import javax.swing.Timer;
 
 /**
+ * Elevator Control 
  * 
+ * @author Chris Hanshew
  */
+
 public class Controller{
 	
 	private ElevatorList elevators;
@@ -35,7 +40,7 @@ public class Controller{
 		ESGUI = new ElevatorSimulationUI(elevators);
 		ESGUI.consoleAppend("Simulation Intialized.  Welcome!  Type help for console commands.");
 		
-		start();
+		timer.start();
 	}
 	
 	private void populateElevatorList(){
@@ -46,27 +51,34 @@ public class Controller{
 			elevators.add(elevator);
 		}
 	}
-	private void start(){
-		timer.start();
-	}
 	
+	/**
+	 * Starts the timers of all of the elevators in the ElevatorList
+	 */
 	private void startSimulation(){
 		for(int i = 0; i < iElevators; i++){
 			elevators.get(i).start();
 		}
 	}
+	
+	/**
+	 * Stops the times of all of the elevators in the ElevatorList
+	 */
 	private void stopSimulation(){
 		for(int i = 0; i < iElevators; i++){
 			elevators.get(i).stop();
 		}
 	}
-
+	
+	/**
+	 * Called by the action event to get user commands from the GUI.
+	 */
 	private void update(){
 		String action = ESGUI.getAction();
 		
 		if(action != null){
 			action = action.toLowerCase();
-			ESGUI.resetAction();
+
 			if(action.equals("start")){
 				if(!elevators.isEmpty()){
 					startSimulation();
@@ -108,8 +120,12 @@ public class Controller{
 				consoleOut(ConsoleCommands.UNKOWN);
 			}
 		}
+		ESGUI.resetAction();
 	}
 	
+	/**
+	 * Parses the values required to set the number of elevators and number of floors
+	 */
 	private void setSimulationParamaters(String[] param){
 		int iParsedValue = 0;
 		for(int i = 1; i < param.length; i++){
@@ -125,13 +141,19 @@ public class Controller{
 			}
 		}
 	}
+	
+	/**
+	 * Parses the value of the maintenance button click and sends the request to the proper elevator. 
+	 * 
+	 * @return int Value representing the elevator that maintenance has been requested for
+	 */
 	private int scheduleMaintenance(String[] param){
 		int iParsedValue = 0;
 		for(int i = 1; i < param.length; i++){
 			try{
 				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
 			}catch(NumberFormatException e){
-				
+				e.printStackTrace();
 			}
 		}
 		for(int i = 0; i < elevators.size(); i++){
@@ -141,6 +163,7 @@ public class Controller{
 		}
 		return iParsedValue;
 	}
+	
 	/**
 	 * Request control logic.  Determines state of of every elevator and attempts to serve requests
 	 * efficiently.  Requests are scheduled based on the time the next elevator will be in service.
@@ -159,7 +182,7 @@ public class Controller{
 	 * requests.  Elevators that have passengers and are moving to their destination are eligible for 
 	 * requests if they fulfill several requirements
 	 * 
-	 * @param nextFloor
+	 * @param nextFloor The floor request to be sent to an elevator.
 	 */
 	private Request serveRequest(String[] param){
 		int iParsedValue = 0;
@@ -167,7 +190,6 @@ public class Controller{
 		for(int i = 1; i < param.length; i++){
 			try{
 				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
-				System.out.println(iParsedValue);
 			}catch(NumberFormatException e){
 				
 			}
@@ -196,9 +218,26 @@ public class Controller{
 		return shortestRequest;
 	}
 	
-	private void consoleOut(String s){
-		ESGUI.consoleAppend(s);
+	/**
+	 * Sends output to the console after controller state has been updated.
+	 * 
+	 * @param output The string to be written to the console.
+	 */
+	private void consoleOut(String output){
+		ESGUI.consoleAppend(output);
 	}
+
+	/**
+	 * Action event called every 50ms to update the state of the controller from GUI input.
+	 */
+	public class updateControl implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			update();
+		}
+	}
+	
 	/////////////////////////////////////////////////////////
 	//  Bare Bones Browser Launch                          //
 	//  Version 1.5 (December 10, 2005)                    //
@@ -238,13 +277,4 @@ public class Controller{
 	        	 e.printStackTrace();
 	         }
 	  }
-	
-	
-	public class updateControl implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			update();
-		}
-	}
 }

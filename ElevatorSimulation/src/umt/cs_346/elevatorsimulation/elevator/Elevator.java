@@ -11,6 +11,12 @@ import umt.cs_346.elevatorsimulation.buttons.FloorButton;
 import umt.cs_346.elevatorsimulation.constants.Constants;
 import umt.cs_346.elevatorsimulation.floorqueue.*;
 
+/**
+ * Elevator Panel responsible for
+ * 
+ * @author Chris Hanshew
+ */
+
 @SuppressWarnings("serial")
 public class Elevator extends JPanel {
   
