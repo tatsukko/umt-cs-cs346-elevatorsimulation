@@ -12,8 +12,6 @@ import java.text.SimpleDateFormat;
  */
 public class Constants {
 	
-	public static final int KEY_CODE_ENTER = 401;
-	
 	public static final int LAYOUT_HORIZONAL_GAP = 5;
 	public static final int LAYOUT_VERITCAL_GAP = 5;
 	public static final int LAYOUT_ROWS = 2;
