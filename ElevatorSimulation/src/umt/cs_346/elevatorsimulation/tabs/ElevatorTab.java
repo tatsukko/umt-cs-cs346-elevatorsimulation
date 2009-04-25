@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 /**
  * Swing component to display elevator objects.
  * Displayed as a tab in the GUI's tabbed pane.
- * @author chanshew
+ * @author Chris Hanshew
  *
  */
 
