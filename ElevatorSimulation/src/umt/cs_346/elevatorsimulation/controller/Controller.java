@@ -33,7 +33,7 @@ public class Controller{
 	
 	public Controller(){
 		
-		timer = new Timer(50, new updateControl());
+		timer = new Timer(Constants.UPDATE_DELAY, new updateControl());
 		
 		elevators = new ElevatorList();
 		
@@ -166,21 +166,15 @@ public class Controller{
 	
 	/**
 	 * Request control logic.  Determines state of of every elevator and attempts to serve requests
-	 * efficiently.  Requests are scheduled based on the time the next elevator will be in service.
-	 * 
-	 * Time-to-completion is based on the delay of the elevators timed action event.
-	 * 
-	 * If the elevator has passengers and is moving to deliver them:
-	 * Time += (ElevatorDelay * DistanceToDestination) + (DoorManipulation * 2)
-	 * 
-	 * If the elevator has no passengers and is enroute to pick them up
-	 * Time += (ElevatorDelay * DistanceToRequest) + (ElevatorDelay * DistaceToDestination + (DoorManipulation *4)
-	 * 
-	 * All requests that are computed 
+	 * efficiently.  Requests are scheduled based on the time the next each elevator has to complete
+	 * its scheduled requests.
 	 * 
 	 * Elevators moving to a floor to pick up passengers will not get preference for unserved
 	 * requests.  Elevators that have passengers and are moving to their destination are eligible for 
-	 * requests if they fulfill several requirements
+	 * requests if they have the lowest time to completion
+	 * 
+	 * This could be made more efficient by calculating the distance of the request from the
+	 * last request in an elevators queue.
 	 * 
 	 * @param nextFloor The floor request to be sent to an elevator.
 	 */
