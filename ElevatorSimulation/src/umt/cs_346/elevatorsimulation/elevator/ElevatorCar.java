@@ -28,26 +28,6 @@ public class ElevatorCar extends Polygon{
 	}
 	
 	public void draw(Graphics page, int coordinate){
-		
-		if(this.getLocation() == coordinate){
-
-		}else{	
-		
-			if(this.getLocation() > coordinate){
-		
-				for(int i = 0; i < this.npoints; i++ ){
-					this.ypoints[i]--;
-				}
-			
-			}else{
-			
-				for(int i = 0; i < this.npoints; i++ ){
-					this.ypoints[i]++;
-				}
-			}
-		
-		}
-		
 		page.setColor(Color.yellow);
 		page.drawPolygon(this);
 	}
@@ -95,7 +75,7 @@ public class ElevatorCar extends Polygon{
 				yStart,
 				yStart + Constants.CAR_HEIGHT,
 				yStart - Constants.CAR_HEIGHT,
-				yStart,
+				yStart
 		};
 		return yCoord;
 	}

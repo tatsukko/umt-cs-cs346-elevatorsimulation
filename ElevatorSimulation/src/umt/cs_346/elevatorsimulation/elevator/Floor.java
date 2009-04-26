@@ -40,10 +40,23 @@ public class Floor extends Polygon{
 	 * 
 	 * @param page Graphics object passed from Elevator objects
 	 */
+	
 	public void draw(Graphics page){
-		page.setColor(Color.RED);
+		page.setColor(Color.red);
 		page.drawPolygon(this);
 		drawFloorName(page);
+	}
+	
+	public void moveUp(){
+		for(int i = 0; i < this.npoints; i++ ){
+			this.ypoints[i]--;
+		}
+		
+	}
+	public void moveDown(){
+		for(int i = 0; i < this.npoints; i++ ){
+			this.ypoints[i]++;
+		}
 	}
 	
 	/**
@@ -59,9 +72,9 @@ public class Floor extends Polygon{
 		int iDoubleDigitOffSet = 18;
 		
 		if(iFloorNumber + 1 < 10){
-			page.drawString(Integer.toString(iFloorNumber + 1), xStart - iSingleDigitOffSet, yStart - iHeightOffSet);
+			page.drawString(Integer.toString(iFloorNumber + 1), xStart - iSingleDigitOffSet, this.ypoints[0] - iHeightOffSet);
 		}else{
-			page.drawString(Integer.toString(iFloorNumber + 1), xStart - iDoubleDigitOffSet, yStart - iHeightOffSet);
+			page.drawString(Integer.toString(iFloorNumber + 1), xStart - iDoubleDigitOffSet, this.ypoints[0] - iHeightOffSet);
 		}
 	}
 	
@@ -113,7 +126,7 @@ public class Floor extends Polygon{
 	 * @return int the y-coordinate of this floors bottom-left corner
 	 */
 	public int lowerBoundary(){
-		return yStart;
+		return this.ypoints[0];
 	}
 	/**
 	 * Returns a y-coordinate value that is used in the drawing of other

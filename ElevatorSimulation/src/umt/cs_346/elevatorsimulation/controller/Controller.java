@@ -189,19 +189,19 @@ public class Controller{
 			}
 		}
 		
-		int [] elevatorTimeToCompletion = new int [elevators.size()];
+		int [] elevatorTimesToCompletion = new int [elevators.size()];
 		Request [] elevatorRequests = new Request[elevators.size()];
 		
 		for(int i = 0; i < elevators.size(); i++){
 			Request request = new Request(elevators.get(i).getID() ,elevators.get(i).getTimeToCompletion());
 			elevatorRequests[i] = request;
-			elevatorTimeToCompletion[i] = request.getTime();
+			elevatorTimesToCompletion[i] = request.getTime();
 		}
 		
-		Arrays.sort(elevatorTimeToCompletion);
+		Arrays.sort(elevatorTimesToCompletion);
 		
 		for(int i = 0; i < elevatorRequests.length; i++){
-			if(elevatorRequests[i].getTime() == (int)elevatorTimeToCompletion[0]){
+			if(elevatorRequests[i].getTime() == (int)elevatorTimesToCompletion[0]){
 				if(!elevators.get(elevatorRequests[i].getID()).getMaintenance()){
 					elevators.get(elevatorRequests[i].getID()).addRequest(iParsedValue);
 					shortestRequest = elevatorRequests[i];

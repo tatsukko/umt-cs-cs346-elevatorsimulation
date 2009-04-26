@@ -19,7 +19,7 @@ public class ElevatorTab extends JPanel{
     
     public ElevatorTab(ElevatorList elevators){
   
-        setBackground(Color.GRAY);
+        //setBackground(Color.GRAY);
         setLayout(new GridLayout(Constants.LAYOUT_ROWS, Constants.LAYOUT_COLUMNS,
         						 Constants.LAYOUT_HORIZONAL_GAP, Constants.LAYOUT_VERITCAL_GAP));
         addElevators(elevators);
