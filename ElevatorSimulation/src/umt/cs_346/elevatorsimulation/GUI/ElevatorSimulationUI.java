@@ -161,7 +161,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        lblMaintence.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblMaintence.setFont(new java.awt.Font("Tahoma", 0, 14));
         lblMaintence.setText("Maintenence");
 
         btnSetParameters.setText("Set Parameters");
@@ -174,9 +174,14 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         lblSimControl.setFont(new java.awt.Font("Tahoma", 0, 14));
         lblSimControl.setText("Simulation Control");
 
-        maintenanceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        maintenanceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        maintenanceComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maintenanceComboBoxActionPerformed(evt);
+            }
+        });
 
-        lblFloorRequest.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFloorRequest.setFont(new java.awt.Font("Tahoma", 0, 14));
         lblFloorRequest.setText("Floor Request");
 
         lblRequestedFloor.setText("Requested Floor:");
@@ -307,9 +312,15 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSetParametersActionPerformed
 
     private void btnSubmitRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitRequestActionPerformed
-        action = "request -" + fldFloorRequest.getText();
-        fldFloorRequest.setText("");
+        if(fldFloorRequest.getText() != null){
+        	action = "request -" + fldFloorRequest.getText();
+        	fldFloorRequest.setText("");
+        }
     }//GEN-LAST:event_btnSubmitRequestActionPerformed
+
+    private void maintenanceComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maintenanceComboBoxActionPerformed
+        action = "maintenance -" + Integer.valueOf((String)maintenanceComboBox.getSelectedItem()).toString();
+    }//GEN-LAST:event_maintenanceComboBoxActionPerformed
 
     public class floorButtonListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
@@ -317,12 +328,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             action = "request -" + button.getText();
         }
     }
-    public class maintenceButtonListener implements ActionListener{
-        public void actionPerformed(ActionEvent e) {
-            JButton button = (JButton)e.getSource();
-            action = "maintenance -" + button.getText();
-        }
-    }
+
     /**
     * @param args the command line arguments
     */

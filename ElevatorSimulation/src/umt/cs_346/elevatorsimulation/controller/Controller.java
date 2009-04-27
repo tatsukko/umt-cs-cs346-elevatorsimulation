@@ -8,7 +8,8 @@ import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
 import umt.cs_346.elevatorsimulation.elevator.Elevator;
 import umt.cs_346.elevatorsimulation.constants.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import java.awt.event.*;
 import javax.swing.Timer;
@@ -88,7 +89,7 @@ public class Controller{
 			else if(action.startsWith("request -")){
 					String [] param = action.split("-");
 					serveRequest(param);
-					consoleOut(ConsoleCommands.FLOOR_REQUEST + shortestRequest.getID());
+
 				}//End Request
 			else if(action.startsWith("help")){
 
@@ -101,7 +102,6 @@ public class Controller{
 					setSimulationParamaters(param);
 					populateElevatorList();
 					ESGUI.addGUIComponents(elevators);
-					consoleOut(ConsoleCommands.INITIALIZE_COMPONENTS);
 				}//End Parameter Set
 			else if(action.startsWith("stop")){
 					stopSimulation();
@@ -111,9 +111,9 @@ public class Controller{
 					String [] param = action.split("-");
 					int iMaintenanceRequest = scheduleMaintenance(param);
 					if(elevators.get(iMaintenanceRequest).getMaintenance()){
-						consoleOut(ConsoleCommands.MAINTENANCE_REQUEST + iMaintenanceRequest);
+						consoleOut(ConsoleCommands.MAINTENANCE_REQUEST + iMaintenanceRequest + 1);
 					}else{
-						consoleOut(ConsoleCommands.MAINTENANCE_COMPLETED + iMaintenanceRequest);
+						consoleOut(ConsoleCommands.MAINTENANCE_COMPLETED + iMaintenanceRequest + 1);
 					}
 				}//End Maintenance
 			else{
@@ -135,9 +135,19 @@ public class Controller{
 				
 			}
 			if(i == 1){
-				iElevators = iParsedValue; 
+				if(iParsedValue < 1 || iParsedValue > 12){
+					consoleOut(ConsoleCommands.ELEVATOR_CREATION_ERROR);
+				}else{
+					iElevators = iParsedValue;
+					consoleOut(ConsoleCommands.DRAW_ELEVATORS);
+				}
 			}else{
-				iFloors = iParsedValue;
+				if(iParsedValue < 5 || iParsedValue > 60){
+					consoleOut(ConsoleCommands.FLOOR_CREATION_ERROR);
+				}else{
+					iFloors = iParsedValue;
+					consoleOut(ConsoleCommands.DRAW_FLOORS);
+				}
 			}
 		}
 	}
@@ -178,40 +188,74 @@ public class Controller{
 	 * 
 	 * @param nextFloor The floor request to be sent to an elevator.
 	 */
-	private Request serveRequest(String[] param){
-		int iParsedValue = 0;
 	
+	private Request serveRequest(String[] param){
+		int iRequestedFloor = 0;
+		ArrayList<Integer> distanceList = new ArrayList<Integer>();
+		
 		for(int i = 1; i < param.length; i++){
 			try{
-				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
+				iRequestedFloor = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
 			}catch(NumberFormatException e){
 				
 			}
 		}
 		
-		int [] elevatorTimesToCompletion = new int [elevators.size()];
-		Request [] elevatorRequests = new Request[elevators.size()];
 		
-		for(int i = 0; i < elevators.size(); i++){
-			Request request = new Request(elevators.get(i).getID() ,elevators.get(i).getTimeToCompletion());
-			elevatorRequests[i] = request;
-			elevatorTimesToCompletion[i] = request.getTime();
-		}
-		
-		Arrays.sort(elevatorTimesToCompletion);
-		
-		for(int i = 0; i < elevatorRequests.length; i++){
-			if(elevatorRequests[i].getTime() == (int)elevatorTimesToCompletion[0]){
-				if(!elevators.get(elevatorRequests[i].getID()).getMaintenance()){
-					elevators.get(elevatorRequests[i].getID()).addRequest(iParsedValue);
-					shortestRequest = elevatorRequests[i];
+		//Check the requested value to make sure it is within bounds.
+		if(iRequestedFloor > iFloors - 1){
+			consoleOut(ConsoleCommands.FLOOR_BOUNDS_ERROR + iFloors);
+			
+		}else{
+
+			ElevatorList candidateList = new ElevatorList();
+			for(int i = 0; i < elevators.size(); i++){
+				if(!elevators.get(i).getMaintenance()){	
+					int iCurrentFloor = elevators.get(i).getCurrentFloor();
+					int iDestinationFloor = elevators.get(i).getNextFloor();
+					int distance = 0;
+					
+					if(iCurrentFloor >= iRequestedFloor && iDestinationFloor <= iRequestedFloor ){
+						candidateList.add(elevators.get(i));
+						distance = iCurrentFloor - iRequestedFloor;
+						elevators.get(i).setDistancePlaceHolder(distance);
+						distanceList.add(distance);
+					}else if(iCurrentFloor <= iRequestedFloor && iDestinationFloor >= iRequestedFloor){
+						candidateList.add(elevators.get(i));
+						distance = iRequestedFloor - iCurrentFloor;
+						elevators.get(i).setDistancePlaceHolder(distance);
+						distanceList.add(distance);
+					}else if(iCurrentFloor >= iRequestedFloor){
+						candidateList.add(elevators.get(i));
+						distance = iCurrentFloor - iRequestedFloor;
+						elevators.get(i).setDistancePlaceHolder(distance);
+						distanceList.add(distance);
+					}else if(iCurrentFloor <= iRequestedFloor){
+						candidateList.add(elevators.get(i));
+						distance = iRequestedFloor - iCurrentFloor;
+						elevators.get(i).setDistancePlaceHolder(distance);
+						distanceList.add(distance);
+					}
+				}
+			}
+
+			Collections.sort(distanceList);
+
+			for(int i = 0; i < candidateList.size(); i++){
+				if(distanceList.get(0) == elevators.get(i).getDistancePlaceHolder()){
+					
+					elevators.get(i).addImmediateRequest(iRequestedFloor);
 					break;
 				}
 			}
 		}
+	
 		return shortestRequest;
 	}
 	
+	/*
+
+    */
 	/**
 	 * Sends output to the console after controller state has been updated.
 	 * 

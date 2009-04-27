@@ -24,16 +24,17 @@ public class Elevator extends JPanel {
 	private int iID;
 	private int iNextFloor = 0;
 	private int iTimeToCompletion = 0;
+	private int iDistancePlaceHolder = 0;
+	int pause = 200;
 	
 	private boolean bMaintenance;
 	
 	private Floor[] floors;
-    private FloorButton[] buttons;
     private FloorQueue floorQueue;
     
 	private ElevatorCar car;
+	private ElevatorDoors doors;
 	
-	private MigLayout layout;
 	private Timer timer;
 	
 	/**
@@ -50,19 +51,16 @@ public class Elevator extends JPanel {
         floorQueue = new FloorQueue();
         
         car = new ElevatorCar(Constants.XSTART, Constants.YSTART);
+        doors = new ElevatorDoors(Constants.XSTART, Constants.YSTART);
         timer = new Timer(Constants.ELEVATOR_DELAY, new animate());
         stop();
         
 		initializePanelComponents();
-		floorQueue.add(35);
-		floorQueue.add(20);
 	}
 	
 	private void initializePanelComponents(){
 		setBackground(Color.GRAY);
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		layout = new MigLayout("wrap");
-		setLayout(layout);
 		addFloors();
 	}
 	private void addFloors(){
@@ -77,65 +75,71 @@ public class Elevator extends JPanel {
     		floors[i] = floor;
     	}
 	}
-	private void addButtons(){
-		buttons = new FloorButton[iFloors];
-		FloorButton button = null;
-		
-		for(int i = 0; i < iFloors; i++){
-			button = new FloorButton(i);
-			button.addActionListener(new buttonListener());
-			buttons[i] = button;
-			
-			add(buttons[i]);
-		}
-	}
 	
-	private int destinationFloor(){
+	public int getDestinationFloor(){
 		return floors[iNextFloor].lowerBoundary();
 	}
 	
 	public void paintComponent(Graphics page){
 		
 		super.paintComponent(page);
-		
-		calculateTimeToCompletion();
     	
-    	if(car.getLocation() == destinationFloor()){
-    		if(floorQueue.size() >= 1){
+    	if(car.getLocation() == getDestinationFloor()){
+    		if(pause != 0){
+    			pause--;
+    			doors.open();
+    		}else if(floorQueue.size() >= 1){
     			floorQueue.remove(0);
+    			
+    			setNextFloor();
     		}
-    		stop();
-    	}else if(car.getLocation() > destinationFloor()){
+    			
+    	}else if(car.getLocation() > getDestinationFloor()){
     		for(int i = 0; i < floors.length; i++){
     			floors[i].moveDown();
     		}
-    	}else if(car.getLocation() < destinationFloor()){
+    		doors.close();
+    		
+    	}else if(car.getLocation() < getDestinationFloor()){
     		for(int i = 0; i < floors.length; i++){
     			floors[i].moveUp();
     		}
+    		doors.close();
     	}
     	drawFloors(page);
     	drawCarriage(page);
+    	drawDoors(page);
     	drawElevatorID(page);
+    	
     	setNextFloor();
 	}
 	
 	private void drawFloors(Graphics page){
 		for(int i = 0; i < floors.length; i++){
+			for(int c = 0; c < floorQueue.size(); c++){
+				if(floorQueue.get(c) == floors[i].getFloorNumber()){
+					floors[i].drawQueued();
+				}else{
+					floors[i].drawNormal();
+				}
+			}
 			floors[i].draw(page);
 		}
 	}
 	
     private void drawCarriage(Graphics page){
     	try{
-    		car.draw(page, destinationFloor());
+    		car.draw(page, getDestinationFloor());
     	}catch(IndexOutOfBoundsException e){
     		e.printStackTrace();
     	}
     }
+    private void drawDoors(Graphics page){
+    	doors.draw(page);
+    }
     private void drawElevatorID(Graphics page){
     	page.setColor(Color.GREEN);
-    	page.drawString("ID: " + Integer.valueOf(getID() + 1).toString(), 0, 10);
+    	page.drawString(Integer.valueOf(getID() + 1).toString(), 0, 10);
     }
     public void setMaintenance(){
     	if(timer.isRunning()){
@@ -156,6 +160,7 @@ public class Elevator extends JPanel {
 	}
 	
     private void setNextFloor(){
+    
     	if(floorQueue.size() > 0){
 	    	try{
 	    		iNextFloor = floorQueue.get(0);
@@ -164,16 +169,21 @@ public class Elevator extends JPanel {
 	    		e.printStackTrace();
 	    	}
     	}
+    	
     	start();
     }
     
-    private int calculateTimeToCompletion(){
+    public void addImmediateRequest(int request){
+    	floorQueue.add(0, request);
+    	setNextFloor();
+    }
+	public int calculateTimeToCompletion(Elevator elevator){
 		iTimeToCompletion = 0;
     	
-    	if(car.getLocation() <= destinationFloor()){
-    		iTimeToCompletion += destinationFloor() - car.getLocation();
+    	if(elevator.getCarLocation() <= getDestinationFloor()){
+    		iTimeToCompletion += getDestinationFloor() - car.getLocation();
     	}else{
-    		iTimeToCompletion += car.getLocation() - destinationFloor();
+    		iTimeToCompletion += car.getLocation() - getDestinationFloor();
     	}
     	
     	if(floorQueue.size() >= 2){
@@ -191,12 +201,26 @@ public class Elevator extends JPanel {
 		
 		return iTimeToCompletion;
     }
+    
+    public int getNextFloor(){
+    	return iNextFloor;
+    }
+    public int getCurrentFloor(){
+    	int iCurrentFloor = 0;
+    	for(int i = 0; i < floors.length; i++){
+    		if(car.getLocation() <= floors[i].lowerBoundary() && car.getLocation() >= floors[i].upperBoundary()){
+    			iCurrentFloor = floors[i].getFloorNumber();
+    		}
+    	}
+		return iCurrentFloor;
+    }
+    
     public void addRequest(int requestedFloor){
     	floorQueue.add(requestedFloor);
     	setNextFloor();
     }
-    public int getTimeToCompletion(){
-    	return iTimeToCompletion;
+    public int getCarLocation(){
+    	return car.getLocation();
     }
 	public void setID(int i){
 		iID = i;
@@ -223,7 +247,12 @@ public class Elevator extends JPanel {
     public int getFloors(){
     	return iFloors;
     }
-
+    public void setDistancePlaceHolder(int distance){
+    	iDistancePlaceHolder = distance;
+    }
+    public int getDistancePlaceHolder(){
+    	return iDistancePlaceHolder;
+    }
     public class animate implements ActionListener{
 	
     	public void actionPerformed(ActionEvent e) {

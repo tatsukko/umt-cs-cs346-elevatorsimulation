@@ -18,6 +18,7 @@ public class Floor extends Polygon{
 	private int xStart;
 	private int yStart;
 	private int iFloorNumber;
+	private boolean bDrawQueued;
 	
 	/**
 	 * Floor constructor
@@ -33,6 +34,8 @@ public class Floor extends Polygon{
 		this.xpoints = createXArray();
 		this.ypoints = createYArray();
 		this.npoints = this.ypoints.length;
+		
+		bDrawQueued = false;
 	}
 	
 	/**
@@ -42,9 +45,20 @@ public class Floor extends Polygon{
 	 */
 	
 	public void draw(Graphics page){
-		page.setColor(Color.red);
+		page.setColor(Color.RED);
 		page.drawPolygon(this);
+		
+		if(bDrawQueued){
+			page.setColor(Color.GREEN);
+		}
+		
 		drawFloorName(page);
+	}
+	public void drawQueued(){
+		bDrawQueued = true;
+	}
+	public void drawNormal(){
+		bDrawQueued = false;
 	}
 	
 	public void moveUp(){
