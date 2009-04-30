@@ -21,7 +21,6 @@ public class ElevatorTab extends JPanel{
     
 	
     public ElevatorTab(ElevatorList elevators){
-    	//setBackground(Color.GRAY);
     	
     	addElevators(elevators);
     }
@@ -32,7 +31,7 @@ public class ElevatorTab extends JPanel{
      * @param elevators ElevatorList containing all instances of the elevators to be displayed 
      */
     private void addElevators(ElevatorList elevators){
-    	if(elevators.size() <= 5){
+    	if(elevators.size() <= 6){
     		setLayout(new GridLayout(1, elevators.size(), Constants.LAYOUT_HORIZONAL_GAP, Constants.LAYOUT_VERITCAL_GAP));
     		setPreferredSize(new Dimension(Constants.TAB_WIDTH * elevators.size(), Constants.TAB_HEIGHT));
     	}else if(elevators.size() <= 9){

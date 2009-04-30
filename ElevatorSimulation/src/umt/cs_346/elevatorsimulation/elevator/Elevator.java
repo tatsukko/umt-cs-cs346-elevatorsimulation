@@ -86,10 +86,8 @@ public class Elevator extends JPanel {
 		super.paintComponent(page);
     	
     	if(car.getLocation() == getDestinationFloor()){
-    		if(pause != 0){
-    			pause--;
-    			doors.open();
-    		}else if(floorQueue.size() >= 1){
+    		doors.open();
+    		if(floorQueue.size() >= 1){
     			floorQueue.remove(0);
     			
     			setNextFloor();
@@ -218,6 +216,7 @@ public class Elevator extends JPanel {
     
     public void addRequest(int requestedFloor){
     	floorQueue.add(requestedFloor);
+    	setNextFloor();
     }
     public int getCarLocation(){
     	return car.getLocation();

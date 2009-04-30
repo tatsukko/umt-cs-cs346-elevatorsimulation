@@ -10,6 +10,7 @@ import umt.cs_346.elevatorsimulation.constants.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import java.awt.event.*;
 import javax.swing.Timer;
@@ -27,10 +28,14 @@ public class Controller{
 	private int iElevators = 0;
 	private int iFloors = 0;
 	
+	private boolean bRandomize = false;
+	
 	private Timer timer;
 
 	private ElevatorSimulationUI ESGUI;
 	private Request shortestRequest = null;
+	
+	private Random randomGenerator; 
 	
 	public Controller(){
 		
@@ -39,7 +44,9 @@ public class Controller{
 		elevators = new ElevatorList();
 		
 		ESGUI = new ElevatorSimulationUI(elevators);
-		ESGUI.consoleAppend("Simulation Intialized.  Welcome!  Type help for console commands.");
+		ESGUI.consoleAppend(ConsoleCommands.INIT);
+		
+		randomGenerator = new Random();
 		
 		timer.start();
 	}
@@ -119,6 +126,15 @@ public class Controller{
 			else if(action.startsWith("requestfloor -")){
 				String [] param = action.split("-");
 				serveFloorRequest(param);
+				//Request tempRequest = serveFloorRequest(param);
+				//consoleOut(ConsoleCommands.confirmFloorRequest(tempRequest.getElevatorID(), tempRequest.getFloorID()));
+			}else if(bRandomize){ 
+				//if(randomGenerator.nextInt(300) % 2 == 0){
+					int iRandomElevator = randomGenerator.nextInt(iElevators) + 1;
+					int iRandomFloor = randomGenerator.nextInt(iFloors) + 1;
+					elevators.get(iRandomElevator).addRequest(iRandomFloor);
+					consoleOut("Random Floor Queued");
+				//}
 			}
 			else{
 				consoleOut(ConsoleCommands.UNKOWN);
@@ -145,12 +161,19 @@ public class Controller{
 					iElevators = iParsedValue;
 					consoleOut(ConsoleCommands.DRAW_ELEVATORS);
 				}
-			}else{
+			
+			}else if(i == 2){
 				if(iParsedValue < 5 || iParsedValue > 60){
 					consoleOut(ConsoleCommands.FLOOR_CREATION_ERROR);
 				}else{
 					iFloors = iParsedValue;
 					consoleOut(ConsoleCommands.DRAW_FLOORS);
+				}
+			}else if(i == 3){
+				if(iParsedValue == 0){
+					bRandomize = false;
+				}else{
+					bRandomize = true;
 				}
 			}
 		}
