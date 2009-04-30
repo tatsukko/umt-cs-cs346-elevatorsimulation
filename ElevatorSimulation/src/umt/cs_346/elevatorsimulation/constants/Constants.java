@@ -17,12 +17,14 @@ public class Constants {
 	public static final int LAYOUT_VERITCAL_GAP = 5;
 	public static final int LAYOUT_ROWS = 2;
 	public static final int LAYOUT_COLUMNS = 6;
+	public static final int TAB_WIDTH = 175;
+	public static final int TAB_HEIGHT = 250;
 	
 	//Elevator and associated classes
     public static final int FLOOR_HEIGHT = 15;
     public static final int CAR_HEIGHT = 15;
-    public static final int YSTART = 125;
-    public static final int XSTART = 50;
+    public static final int YSTART = 200;
+    public static final int XSTART = 55;
     public static final int ELEVATOR_DELAY = 10;
     public static final int BUTTON_VALUE_OFFSET = 1;
     public static final Dimension FLOOR_BUTTON_DIMENSION = new Dimension(20, 15);

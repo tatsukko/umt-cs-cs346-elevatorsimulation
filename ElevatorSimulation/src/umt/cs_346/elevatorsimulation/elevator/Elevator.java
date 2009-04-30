@@ -61,6 +61,7 @@ public class Elevator extends JPanel {
 	private void initializePanelComponents(){
 		setBackground(Color.GRAY);
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		//setPreferredSize(new Dimension(150, 250));
 		addFloors();
 	}
 	private void addFloors(){
@@ -217,7 +218,6 @@ public class Elevator extends JPanel {
     
     public void addRequest(int requestedFloor){
     	floorQueue.add(requestedFloor);
-    	setNextFloor();
     }
     public int getCarLocation(){
     	return car.getLocation();

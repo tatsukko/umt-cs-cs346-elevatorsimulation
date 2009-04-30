@@ -18,8 +18,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+
+//import com.sun.java.util.jar.pack.Attribute.Layout;
 
 import umt.cs_346.elevatorsimulation.elevator.ElevatorList;
 import umt.cs_346.elevatorsimulation.tabs.*;
@@ -31,29 +35,46 @@ import umt.cs_346.elevatorsimulation.constants.Constants;
  * @author Chris Hanshew
  */
 public class ElevatorSimulationUI extends javax.swing.JFrame {
-
+	
+	private GroupLayout layout;
+	
     private String action;
  
     private String [] maintenanceComboItems;
     /** Creates new form ElevatorSimulationUI */
     public ElevatorSimulationUI(ElevatorList elevators) {
     	//String [] maintenanceComboItems = new String [elevators.size()];
-    	
+    	layout = new javax.swing.GroupLayout(getContentPane());
+         getContentPane().setLayout(layout);
         initComponents();
         addMaintenceItems(elevators.size());
         this.setTitle(Constants.TITLE);
         this.setVisible(true);
     }
     public void addGUIComponents(ElevatorList elevators){
-        if(tabbedPane.getComponentCount() == 0){
-            tabbedPane.add("Elevators", new ElevatorTab(elevators));
-            //addFloorButtons(elevators.get(0).getFloors());
-            //addMaintenceButtons(elevators.size());
-        }else{
-            tabbedPane.remove(0);
-            repaint();
-            addGUIComponents(elevators);
-        }
+    	
+    	//tabbedPane.setPreferredSize(new Dimension(300, 300));
+    	//tabbedPane.setMaximumSize(new Dimension(300, 300));
+    	//tabbedPane.setMinimumSize(new Dimension(300, 300));
+    	
+    	JFrame frame = new JFrame();
+
+  
+    	ElevatorTab elevatorTab = new ElevatorTab(elevators);
+    	//elevatorTab.setMaximumSize(new Dimension(300, 300));
+    	frame.add(elevatorTab);
+        //tabbedPane.add("Elevators", elevatorTab);
+        //tabbedPane.setPreferredSize(new Dimension(800, 500));
+    	frame.setPreferredSize(elevatorTab.getPreferredSize());
+    	
+    	frame.setTitle(Constants.TITLE);
+    	frame.setVisible(true);
+    	
+        frame.pack();
+        //addFloorButtons(elevators.get(0).getFloors());
+        //addMaintenceButtons(elevators.size());
+        
+        
     }
   
     private void addFloorButtons(int buttonCount){
@@ -113,12 +134,17 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
         lblMaintence = new javax.swing.JLabel();
         btnSetParameters = new javax.swing.JButton();
         lblSimControl = new javax.swing.JLabel();
-        tabbedPane = new javax.swing.JTabbedPane();
         maintenanceComboBox = new javax.swing.JComboBox();
-        lblFloorRequest = new javax.swing.JLabel();
-        lblRequestedFloor = new javax.swing.JLabel();
-        fldFloorRequest = new javax.swing.JTextField();
+        lblElevatorRequest = new javax.swing.JLabel();
+        lblElevatorRequestFloor = new javax.swing.JLabel();
+        fldElevatorRequest = new javax.swing.JTextField();
         btnSubmitRequest = new javax.swing.JButton();
+        lblFloorRequest = new javax.swing.JLabel();
+        lblFloorRequestElevator = new javax.swing.JLabel();
+        lblFloorRequestFloor = new javax.swing.JLabel();
+        fldFloorRequestElevator = new javax.swing.JTextField();
+        fldFloorRequestFloors = new javax.swing.JTextField();
+        btnFloorRequest = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -161,8 +187,8 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        lblMaintence.setFont(new java.awt.Font("Tahoma", 0, 14));
-        lblMaintence.setText("Maintenence");
+        lblMaintence.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblMaintence.setText("Schedule Maintenence");
 
         btnSetParameters.setText("Set Parameters");
         btnSetParameters.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +197,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        lblSimControl.setFont(new java.awt.Font("Tahoma", 0, 14));
+        lblSimControl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSimControl.setText("Simulation Control");
 
         maintenanceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
@@ -181,61 +207,93 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             }
         });
 
-        lblFloorRequest.setFont(new java.awt.Font("Tahoma", 0, 14));
-        lblFloorRequest.setText("Floor Request");
+        lblElevatorRequest.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblElevatorRequest.setText("Elevator Request");
 
-        lblRequestedFloor.setText("Requested Floor:");
+        lblElevatorRequestFloor.setText("Requested Floor:");
 
-        btnSubmitRequest.setText("Submit Request");
+        btnSubmitRequest.setText("Submit");
         btnSubmitRequest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubmitRequestActionPerformed(evt);
             }
         });
 
+        lblFloorRequest.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFloorRequest.setText("Floor Request");
+
+        lblFloorRequestElevator.setText("Elevator:");
+
+        lblFloorRequestFloor.setText("Floor:");
+
+        fldFloorRequestFloors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fldFloorRequestFloorsActionPerformed(evt);
+            }
+        });
+
+        btnFloorRequest.setText("Submit");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSimControl)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblFloorRequest)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(maintenanceComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblMaintence, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblRequestedFloor)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fldFloorRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblNumElevators)
+                                                    .addComponent(lblNumFloors)
+                                                    .addComponent(btnSetParameters, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(fldNumElevators)
+                                                    .addComponent(fldNumFloors, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)))
+                                            .addComponent(lblSimControl, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblSimParam, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnSubmitRequest, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(lblElevatorRequestFloor)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(fldElevatorRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblElevatorRequest, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblNumElevators)
-                                            .addComponent(lblNumFloors)
-                                            .addComponent(btnSetParameters, javax.swing.GroupLayout.Alignment.TRAILING))
+                                            .addComponent(lblFloorRequestElevator)
+                                            .addComponent(lblFloorRequestFloor))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(fldNumFloors, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                                            .addComponent(fldNumElevators, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)))
-                                    .addComponent(lblSimParam, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(8, 8, 8)))
-                        .addGap(28, 28, 28))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(fldFloorRequestFloors)
+                                            .addComponent(fldFloorRequestElevator, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblMaintence)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(maintenanceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(85, 85, 85)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnFloorRequest)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSubmitRequest)
+                        .addComponent(lblFloorRequest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
-                    .addComponent(console, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
-                    .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(console, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -243,7 +301,7 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblSimParam)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -255,31 +313,39 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
                             .addComponent(lblNumFloors))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSetParameters)
-                        .addGap(22, 22, 22)
+                        .addGap(18, 18, 18)
                         .addComponent(lblSimControl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(lblMaintence, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblElevatorRequest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maintenanceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblElevatorRequestFloor)
+                            .addComponent(fldElevatorRequest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSubmitRequest)
+                        .addGap(12, 12, 12)
                         .addComponent(lblFloorRequest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblRequestedFloor)
-                            .addComponent(fldFloorRequest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblFloorRequestElevator)
+                            .addComponent(fldFloorRequestElevator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSubmitRequest))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblFloorRequestFloor)
+                            .addComponent(fldFloorRequestFloors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(console, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)))
+                        .addComponent(btnFloorRequest)
+                        .addGap(11, 11, 11)
+                        .addComponent(lblMaintence, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maintenanceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(console, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -312,15 +378,19 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSetParametersActionPerformed
 
     private void btnSubmitRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitRequestActionPerformed
-        if(fldFloorRequest.getText() != null){
-        	action = "request -" + fldFloorRequest.getText();
-        	fldFloorRequest.setText("");
+        if(fldElevatorRequest.getText() != null){
+        	action = "request -" + fldElevatorRequest.getText();
+        	fldElevatorRequest.setText("");
         }
     }//GEN-LAST:event_btnSubmitRequestActionPerformed
 
     private void maintenanceComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maintenanceComboBoxActionPerformed
         action = "maintenance -" + Integer.valueOf((String)maintenanceComboBox.getSelectedItem()).toString();
     }//GEN-LAST:event_maintenanceComboBoxActionPerformed
+
+    private void fldFloorRequestFloorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fldFloorRequestFloorsActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_fldFloorRequestFloorsActionPerformed
 
     public class floorButtonListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
@@ -342,25 +412,30 @@ public class ElevatorSimulationUI extends javax.swing.JFrame {
     }
     */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFloorRequest;
     private javax.swing.JButton btnSetParameters;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStop;
     private javax.swing.JButton btnSubmitRequest;
     private javax.swing.JTextField console;
     private javax.swing.JTextPane consoleOut;
-    private javax.swing.JTextField fldFloorRequest;
+    private javax.swing.JTextField fldElevatorRequest;
+    private javax.swing.JTextField fldFloorRequestElevator;
+    private javax.swing.JTextField fldFloorRequestFloors;
     private javax.swing.JTextField fldNumElevators;
     private javax.swing.JTextField fldNumFloors;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblElevatorRequest;
+    private javax.swing.JLabel lblElevatorRequestFloor;
     private javax.swing.JLabel lblFloorRequest;
+    private javax.swing.JLabel lblFloorRequestElevator;
+    private javax.swing.JLabel lblFloorRequestFloor;
     private javax.swing.JLabel lblMaintence;
     private javax.swing.JLabel lblNumElevators;
     private javax.swing.JLabel lblNumFloors;
-    private javax.swing.JLabel lblRequestedFloor;
     private javax.swing.JLabel lblSimControl;
     private javax.swing.JLabel lblSimParam;
     private javax.swing.JComboBox maintenanceComboBox;
-    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 
 }

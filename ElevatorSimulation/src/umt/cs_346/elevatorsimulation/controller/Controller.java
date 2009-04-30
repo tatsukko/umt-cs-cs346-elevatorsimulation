@@ -116,6 +116,10 @@ public class Controller{
 						consoleOut(ConsoleCommands.MAINTENANCE_COMPLETED + iMaintenanceRequest + 1);
 					}
 				}//End Maintenance
+			else if(action.startsWith("requestfloor -")){
+				String [] param = action.split("-");
+				serveFloorRequest(param);
+			}
 			else{
 				consoleOut(ConsoleCommands.UNKOWN);
 			}
@@ -167,7 +171,7 @@ public class Controller{
 			}
 		}
 		for(int i = 0; i < elevators.size(); i++){
-			if((iParsedValue) == elevators.get(i).getID()){
+			if(iParsedValue == elevators.get(i).getID()){
 				elevators.get(i).setMaintenance();
 			}
 		}
@@ -253,6 +257,32 @@ public class Controller{
 		return shortestRequest;
 	}
 	
+	private Request serveFloorRequest(String [] param){
+		int iParsedValue = 0;
+		int iElevatorID = 0;
+		int iFloorID = 0;
+		Request floorRequest = null;
+		for(int i = 1; i < param.length; i++){
+			try{
+				iParsedValue = Integer.parseInt(param[i]) - Constants.BUTTON_VALUE_OFFSET;
+			}catch(NumberFormatException e){
+				e.printStackTrace();
+			}
+			if(i == 1){
+				iElevatorID = iParsedValue;
+			}else{
+				iFloorID = iParsedValue;
+			}
+		}
+		for(int i = 0; i < elevators.size(); i++){
+			if(iElevatorID == elevators.get(i).getID()){
+				elevators.get(i).addRequest(iFloorID);
+				//floorRequest = new Request(elevators.get(i).getID(), iFloorID, elevators.get(i).getTi);
+			}
+		}
+		return floorRequest;
+		
+	}
 	/*
 
     */

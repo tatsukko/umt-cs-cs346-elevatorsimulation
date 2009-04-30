@@ -1,22 +1,23 @@
 package umt.cs_346.elevatorsimulation.request;
 
 /**
- * @author Hanshew
+ * @author Chris Hanshew
  */
+
 public class Request {
 	
 	private int iElevatorID;
-	private int iTime;
+	private int iFloorID;
 	
-	public Request(int elevatorID, int time){
+	public Request(int elevatorID,int floorID){
 		iElevatorID = elevatorID;
-		iTime = time;
+		iFloorID = floorID;
 	}
-	
-	public int getID(){
+
+	public int getElevatorID(){
 		return iElevatorID;
 	}
-	public int getTime(){
-		return iTime;
+	public int getFloorID(){
+		return iFloorID;
 	}
 }
