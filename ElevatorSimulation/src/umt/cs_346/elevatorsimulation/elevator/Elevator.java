@@ -2,8 +2,6 @@ package umt.cs_346.elevatorsimulation.elevator;
 
 import javax.swing.*;
 
-import net.miginfocom.swing.MigLayout;
-
 import java.awt.*;
 import java.awt.event.*;
 
